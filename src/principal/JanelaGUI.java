@@ -7,8 +7,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
@@ -27,8 +25,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 public class JanelaGUI extends JFrame {
-	//painel
-	private JPanel contentPane;
+	
+	// controlador dos eventos da janela
+	JanelaCtrl janelaCtrl = new JanelaCtrl();
+	// botoes da toolbar
+	JButton btnCadastrar;
+	JButton btnVerificar;
+	JButton btnRemover;
+	JButton btnRemoverTodos;
+	JButton btnSobre;
+	// box com os dados do usuário cadastrado
+	JPanel jpanelBoxInfoUser;
+	// lista de usuários cadastrados
+	JList listaUser;
 
 	/**
 	 * Launch the application.
@@ -49,7 +58,7 @@ public class JanelaGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public JanelaGUI() {		
+	public JanelaGUI() {
 		setVisible(true);
 		setResizable(false);
 		setTitle("Gerenciar usu\u00E1rios");
@@ -69,37 +78,36 @@ public class JanelaGUI extends JFrame {
 		toolBar.setPreferredSize(new Dimension(18, 25));
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 		
-		JButton btnCadastrar = new JButton(" Cadastrar ");
+		btnCadastrar = new JButton(" Cadastrar ");
 		btnCadastrar.setMaximumSize(new Dimension(70, 30));
 		btnCadastrar.setMargin(new Insets(2, 10, 2, 10));
 		btnCadastrar.setPreferredSize(new Dimension(75, 30));
 		btnCadastrar.setOpaque(false);
 		btnCadastrar.setBorder(null);
-		btnCadastrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		btnCadastrar.addActionListener(janelaCtrl);
 		toolBar.add(btnCadastrar);
 		
-		JButton btnVerificar = new JButton(" Verificar ");
+		btnVerificar = new JButton(" Verificar ");
 		btnVerificar.setMargin(new Insets(2, 10, 2, 10));
 		btnVerificar.setPreferredSize(new Dimension(75, 30));
 		btnVerificar.setMinimumSize(new Dimension(75, 30));
 		btnVerificar.setMaximumSize(new Dimension(70, 30));
 		btnVerificar.setOpaque(false);
 		btnVerificar.setBorder(null);
+		btnVerificar.addActionListener(janelaCtrl);
 		toolBar.add(btnVerificar);
 		
-		JButton btnRemover = new JButton(" Remover ");
+		btnRemover = new JButton(" Remover ");
 		btnRemover.setMargin(new Insets(2, 10, 2, 10));
 		btnRemover.setMaximumSize(new Dimension(70, 30));
 		btnRemover.setMinimumSize(new Dimension(75, 30));
 		btnRemover.setPreferredSize(new Dimension(75, 30));
 		btnRemover.setOpaque(false);
 		btnRemover.setBorder(null);
+		btnRemover.addActionListener(janelaCtrl);
 		toolBar.add(btnRemover);
 		
-		JButton btnRemoverTodos = new JButton(" Remover todos ");
+		btnRemoverTodos = new JButton(" Remover todos ");
 		btnRemoverTodos.setMargin(new Insets(2, 10, 2, 10));
 		btnRemoverTodos.setPreferredSize(new Dimension(110, 30));
 		btnRemoverTodos.setMinimumSize(new Dimension(110, 30));
@@ -107,15 +115,17 @@ public class JanelaGUI extends JFrame {
 		btnRemoverTodos.setSize(new Dimension(126, 30));
 		btnRemoverTodos.setOpaque(false);
 		btnRemoverTodos.setBorder(null);
+		btnRemoverTodos.addActionListener(janelaCtrl);
 		toolBar.add(btnRemoverTodos);
 		
-		JButton btnSobre = new JButton(" Sobre ");
+		btnSobre = new JButton(" Sobre ");
 		btnSobre.setMargin(new Insets(2, 10, 2, 10));
 		btnSobre.setMinimumSize(new Dimension(55, 30));
 		btnSobre.setMaximumSize(new Dimension(45, 30));
 		toolBar.add(btnSobre);
 		btnSobre.setPreferredSize(new Dimension(55, 30));
 		btnSobre.setOpaque(false);
+		btnSobre.addActionListener(janelaCtrl);
 		btnSobre.setBorder(null);
 		
 		JPanel panel = new JPanel();
@@ -131,7 +141,7 @@ public class JanelaGUI extends JFrame {
 		lblListaUser.setBounds(411, 0, 130, 29);
 		panel.add(lblListaUser);
 		
-		JList listaUser = new JList();
+		listaUser = new JList();
 		listaUser.setFont(new Font("Dialog", Font.PLAIN, 12));
 		listaUser.setBorder(new CompoundBorder(new LineBorder(new Color(70, 130, 180)), new EmptyBorder(2, 6, 0, 6)));
 		listaUser.setBounds(411, 28, 130, 331);
@@ -146,7 +156,7 @@ public class JanelaGUI extends JFrame {
 		});
 		panel.add(listaUser);
 		
-		JPanel jpanelBoxInfoUser = new JPanel();
+		jpanelBoxInfoUser = new JPanel();
 		jpanelBoxInfoUser.setBackground(new Color(255, 250, 250));
 		jpanelBoxInfoUser.setBounds(0, 0, 411, 357);
 		panel.add(jpanelBoxInfoUser);
