@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Insets;
 
@@ -23,8 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
-import com.neurotechnology.Nffv.Nffv;
+import java.awt.SystemColor;
 
 public class JanelaGUI extends JFrame {
 	// controlador dos eventos da janela
@@ -40,6 +38,8 @@ public class JanelaGUI extends JFrame {
 	protected JTextField txtNome;
 	protected JSpinner spinnerNivelAcesso;
 	protected JLabel lblImgDigital;
+	protected JButton btnSalvarDadosUser;
+	protected JButton btnSubstituirDigitalUser;
 	// lista de usuários cadastrados
 	protected JList listaUser;
 
@@ -55,6 +55,9 @@ public class JanelaGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
 		setPanel();
+		
+		// carrega a lista de usuários
+		janelaCtrl.carregaListaUsuarios();
 	}
 	
 	// panel
@@ -135,7 +138,7 @@ public class JanelaGUI extends JFrame {
 		listaUser.setBorder(new CompoundBorder(new LineBorder(new Color(70, 130, 180)), new EmptyBorder(2, 6, 0, 6)));
 		listaUser.setBounds(411, 28, 130, 331);
 		listaUser.setModel(new AbstractListModel() {
-			String[] values = new String[] {"user 1", "user 2", "user 3", "user 4", "user 5", "user 6", "user 7", "user 8", "user 9", "user 10"};
+			String[] values = new String[] {};
 			public int getSize() {
 				return values.length;
 			}
@@ -146,7 +149,7 @@ public class JanelaGUI extends JFrame {
 		panel.add(listaUser);
 		
 		jpanelBoxInfoUser = new JPanel();
-		jpanelBoxInfoUser.setBackground(new Color(255, 250, 250));
+		jpanelBoxInfoUser.setBackground(SystemColor.window);
 		jpanelBoxInfoUser.setBounds(0, 0, 411, 357);
 		panel.add(jpanelBoxInfoUser);
 		
@@ -155,6 +158,7 @@ public class JanelaGUI extends JFrame {
 		lblNome.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		txtNome = new JTextField();
+		txtNome.setEnabled(false);
 		txtNome.setBounds(90, 25, 284, 26);
 		txtNome.setColumns(10);
 		
@@ -163,31 +167,34 @@ public class JanelaGUI extends JFrame {
 		lblNivelDeAcesso.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		spinnerNivelAcesso = new JSpinner();
+		spinnerNivelAcesso.setEnabled(false);
 		spinnerNivelAcesso.setBounds(139, 66, 44, 26);
 		spinnerNivelAcesso.setModel(new SpinnerNumberModel(1, 1, 3, 1));
 		
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(298, 64, 76, 28);
-		btnSalvar.setMaximumSize(new Dimension(63, 20));
-		btnSalvar.setMinimumSize(new Dimension(63, 20));
-		btnSalvar.setPreferredSize(new Dimension(62, 20));
+		btnSalvarDadosUser = new JButton("Salvar");
+		btnSalvarDadosUser.setEnabled(false);
+		btnSalvarDadosUser.setBounds(298, 64, 76, 28);
+		btnSalvarDadosUser.setMaximumSize(new Dimension(63, 20));
+		btnSalvarDadosUser.setMinimumSize(new Dimension(63, 20));
+		btnSalvarDadosUser.setPreferredSize(new Dimension(62, 20));
 		
 		lblImgDigital = new JLabel("");
-		ImageIcon img_icone = new ImageIcon(getClass().getResource("/img/logo.png"));
-		lblImgDigital.setIcon(img_icone);
+		/*ImageIcon img_icone = new ImageIcon(getClass().getResource("/img/logo.png"));
+		lblImgDigital.setIcon(img_icone);*/
 		lblImgDigital.setOpaque(true);
 		lblImgDigital.setBounds(37, 106, 337, 182);
 		lblImgDigital.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImgDigital.setBackground(new Color(211, 211, 211));
 		jpanelBoxInfoUser.setLayout(null);
 		
-		JButton btnSubstituirDigital = new JButton("Substituir digital");
-		btnSubstituirDigital.setBounds(37, 293, 337, 28);
-		jpanelBoxInfoUser.add(btnSubstituirDigital);
+		btnSubstituirDigitalUser = new JButton("Substituir digital");
+		btnSubstituirDigitalUser.setEnabled(false);
+		btnSubstituirDigitalUser.setBounds(37, 293, 337, 28);
+		jpanelBoxInfoUser.add(btnSubstituirDigitalUser);
 		jpanelBoxInfoUser.add(lblImgDigital);
 		jpanelBoxInfoUser.add(lblNivelDeAcesso);
 		jpanelBoxInfoUser.add(spinnerNivelAcesso);
-		jpanelBoxInfoUser.add(btnSalvar);
+		jpanelBoxInfoUser.add(btnSalvarDadosUser);
 		jpanelBoxInfoUser.add(lblNome);
 		jpanelBoxInfoUser.add(txtNome);
 	}
