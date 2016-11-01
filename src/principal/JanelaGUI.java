@@ -24,41 +24,30 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-public class JanelaGUI extends JFrame {
-	
-	// controlador dos eventos da janela
-	JanelaCtrl janelaCtrl = new JanelaCtrl();
-	// botoes da toolbar
-	JButton btnCadastrar;
-	JButton btnVerificar;
-	JButton btnRemover;
-	JButton btnRemoverTodos;
-	JButton btnSobre;
-	// box com os dados do usuário cadastrado
-	JPanel jpanelBoxInfoUser;
-	// lista de usuários cadastrados
-	JList listaUser;
+import com.neurotechnology.Nffv.Nffv;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JanelaGUI frame = new JanelaGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+public class JanelaGUI extends JFrame {
+	// controlador dos eventos da janela
+	private JanelaCtrl janelaCtrl = new JanelaCtrl(this);
+	// botoes da toolbar
+	protected JButton btnCadastrar;
+	protected JButton btnVerificar;
+	protected JButton btnRemover;
+	protected JButton btnRemoverTodos;
+	protected JButton btnSobre;
+	// box com os dados do usuário cadastrado
+	protected JPanel jpanelBoxInfoUser;
+	protected JTextField txtNome;
+	protected JSpinner spinnerNivelAcesso;
+	protected JLabel lblImgDigital;
+	// lista de usuários cadastrados
+	protected JList listaUser;
 
 	/**
 	 * Create the frame.
 	 */
-	public JanelaGUI() {
+	protected JanelaGUI() {		
+		// carrega a janela
 		setVisible(true);
 		setResizable(false);
 		setTitle("Gerenciar usu\u00E1rios");
@@ -165,7 +154,7 @@ public class JanelaGUI extends JFrame {
 		lblNome.setBounds(37, 32, 43, 14);
 		lblNome.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JTextField txtNome = new JTextField();
+		txtNome = new JTextField();
 		txtNome.setBounds(90, 25, 284, 26);
 		txtNome.setColumns(10);
 		
@@ -173,7 +162,7 @@ public class JanelaGUI extends JFrame {
 		lblNivelDeAcesso.setBounds(37, 72, 98, 14);
 		lblNivelDeAcesso.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JSpinner spinnerNivelAcesso = new JSpinner();
+		spinnerNivelAcesso = new JSpinner();
 		spinnerNivelAcesso.setBounds(139, 66, 44, 26);
 		spinnerNivelAcesso.setModel(new SpinnerNumberModel(1, 1, 3, 1));
 		
@@ -183,7 +172,7 @@ public class JanelaGUI extends JFrame {
 		btnSalvar.setMinimumSize(new Dimension(63, 20));
 		btnSalvar.setPreferredSize(new Dimension(62, 20));
 		
-		JLabel lblImgDigital = new JLabel("");
+		lblImgDigital = new JLabel("");
 		ImageIcon img_icone = new ImageIcon(getClass().getResource("/img/logo.png"));
 		lblImgDigital.setIcon(img_icone);
 		lblImgDigital.setOpaque(true);

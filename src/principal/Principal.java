@@ -13,7 +13,7 @@ public class Principal {
 
 	public Principal() {
 		// objeto da classe que manipulará o scanner e o DB
-		ffv = new ScannerNffv().carrega();
+		ffv = ScannerNffv.getNffv();
 		
 		// exibe a janela do gerenciador de usuários
 		EventQueue.invokeLater(new Runnable() {
