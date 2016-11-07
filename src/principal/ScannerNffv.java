@@ -15,6 +15,7 @@ abstract class ScannerNffv {
 		scanner[0] = Nffv.getAvailableScannerModules()[tipoScanner]; 
 		
 		// cria um objeto da classe que manipulará o scanner e o DB
+		System.out.println(bancoDeDados+"-"+senhaDB+"-"+scanner.toString());
 		nffv = new Nffv(bancoDeDados, senhaDB, scanner);
 	}
 
@@ -24,7 +25,6 @@ abstract class ScannerNffv {
 		if(nffv == null){
 			carrega();
 		}
-		
 		return nffv;
 	}
 	
