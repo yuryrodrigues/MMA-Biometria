@@ -34,8 +34,7 @@ public class JanelaCtrl implements ActionListener {
 		janelaDono = janela;
 		
 		// cria a lista que armazenara os usuarios cadastrados
-		//listaUsuarios = new DefaultListModel();
-		listaUsuarios = janelaDono.listaUsuarios;
+		listaUsuarios = new DefaultListModel();		
 		
 		// carrega a lista de usuários
 		carregaListaUsuarios();
@@ -122,10 +121,10 @@ public class JanelaCtrl implements ActionListener {
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
 			// se as digitais são compativeis
 			if( compatibilidadeUsuario > 0){
-				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " verificado. \n Compatibilidade da impressão digital: " + compatibilidadeUsuario,"Verificado",JOptionPane.DEFAULT_OPTION);
+				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getName() + " verificado. \n Compatibilidade da impressão digital: " + compatibilidadeUsuario,"Verificado",JOptionPane.DEFAULT_OPTION);
 			}
 			else{ 
-				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " não verificado.\nAs impressões digitais não são compativeis.","Falha na verificação",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getName() + " não verificado.\nAs impressões digitais não são compativeis.","Falha na verificação",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		else{
@@ -191,7 +190,7 @@ public class JanelaCtrl implements ActionListener {
 	protected void carregaListaUsuarios(){
 		// define o arquivo com o banco de dados das digitais
 		File arquivoDB = new File(ScannerNffv.getBancoDeDados() + ".fdb");
-		
+		System.out.println("qt lista use:"+listaUsuarios.size());
 		// verifica se o arquivo existe
 		if(arquivoDB.exists()){
 			try{
@@ -212,6 +211,9 @@ public class JanelaCtrl implements ActionListener {
 				e.printStackTrace();
 			}
 		}
+		
+		// adiciona o modelo com a lista de usuários na janela
+		janelaDono.listaUser.setModel(listaUsuarios);
 	}
 		
 	// atualiza a lista de usuários na janela
@@ -241,7 +243,7 @@ public class JanelaCtrl implements ActionListener {
 		NffvUser usuario = ffv.getUserByID(usuarioSelecionado.getID());
 		
 		// atualiza o box com as informações do usuário
-		janelaDono.txtNome.setText(usuarioSelecionado.getNome());
+		janelaDono.txtNome.setText(usuarioSelecionado.getName());
 		janelaDono.spinnerNivelAcesso.setValue(usuarioSelecionado.getNivelAcesso());
 		try {
 			janelaDono.lblImgDigital.setIcon(usuario.getNffvImage().getImageIcon());
