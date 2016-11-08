@@ -34,7 +34,14 @@ public class JanelaCtrl implements ActionListener {
 		janelaDono = janela;
 		
 		// cria a lista que armazenara os usuarios cadastrados
-		listaUsuarios = new DefaultListModel();
+		//listaUsuarios = new DefaultListModel();
+		listaUsuarios = janelaDono.listaUsuarios;
+		
+		// carrega a lista de usuários
+		carregaListaUsuarios();
+		
+		// busca o objeto da classe que manipulará o scanner e o DB
+		ffv = ScannerNffv.getNffv();
 	}
 	
 	@Override
@@ -155,6 +162,9 @@ public class JanelaCtrl implements ActionListener {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(janelaDono, "Falha no cadastro da digital - " + e.getMessage(), "Falhou", JOptionPane.ERROR_MESSAGE);
 		}
+		
+		// atualiza o box com as informações do usuario
+		atualizaBoxUser();
 	}
 	
 	// salva a lista de usuarios atualizada no banco de dados

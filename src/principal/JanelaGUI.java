@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Insets;
 
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -42,6 +43,7 @@ public class JanelaGUI extends JFrame {
 	protected JButton btnSubstituirDigitalUser;
 	// lista de usuários cadastrados
 	protected JList listaUser;
+	protected DefaultListModel listaUsuarios;
 
 	/**
 	 * Create the frame.
@@ -55,9 +57,6 @@ public class JanelaGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
 		setPanel();
-		
-		// carrega a lista de usuários
-		janelaCtrl.carregaListaUsuarios();
 	}
 	
 	// panel
@@ -133,19 +132,12 @@ public class JanelaGUI extends JFrame {
 		lblListaUser.setBounds(411, 0, 130, 29);
 		panel.add(lblListaUser);
 		
-		listaUser = new JList();
+		listaUsuarios = new DefaultListModel();
+		listaUser = new JList(listaUsuarios);
 		listaUser.setFont(new Font("Dialog", Font.PLAIN, 12));
 		listaUser.setBorder(new CompoundBorder(new LineBorder(new Color(70, 130, 180)), new EmptyBorder(2, 6, 0, 6)));
 		listaUser.setBounds(411, 28, 130, 331);
-		listaUser.setModel(new AbstractListModel() {
-			String[] values = new String[] {};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+
 		panel.add(listaUser);
 		
 		jpanelBoxInfoUser = new JPanel();
