@@ -33,4 +33,8 @@ public class Usuario implements Serializable{
 	public void setNivelAcesso(int nivelAcesso) {
 		this.nivelAcesso = nivelAcesso;
 	}
+	
+	public String toString(){
+		return nome;
+	}
 }

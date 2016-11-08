@@ -36,9 +36,6 @@ public class JanelaCtrl implements ActionListener {
 		// cria a lista que armazenara os usuarios cadastrados
 		listaUsuarios = new DefaultListModel();		
 		
-		// carrega a lista de usuários
-		carregaListaUsuarios();
-		
 		// busca o objeto da classe que manipulará o scanner e o DB
 		ffv = ScannerNffv.getNffv();
 	}
@@ -121,10 +118,10 @@ public class JanelaCtrl implements ActionListener {
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
 			// se as digitais são compativeis
 			if( compatibilidadeUsuario > 0){
-				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getName() + " verificado. \n Compatibilidade da impressão digital: " + compatibilidadeUsuario,"Verificado",JOptionPane.DEFAULT_OPTION);
+				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " verificado. \n Compatibilidade da impressão digital: " + compatibilidadeUsuario,"Verificado",JOptionPane.DEFAULT_OPTION);
 			}
 			else{ 
-				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getName() + " não verificado.\nAs impressões digitais não são compativeis.","Falha na verificação",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " não verificado.\nAs impressões digitais não são compativeis.","Falha na verificação",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		else{
@@ -243,7 +240,7 @@ public class JanelaCtrl implements ActionListener {
 		NffvUser usuario = ffv.getUserByID(usuarioSelecionado.getID());
 		
 		// atualiza o box com as informações do usuário
-		janelaDono.txtNome.setText(usuarioSelecionado.getName());
+		janelaDono.txtNome.setText(usuarioSelecionado.getNome());
 		janelaDono.spinnerNivelAcesso.setValue(usuarioSelecionado.getNivelAcesso());
 		try {
 			janelaDono.lblImgDigital.setIcon(usuario.getNffvImage().getImageIcon());

@@ -27,7 +27,7 @@ import java.awt.SystemColor;
 
 public class JanelaGUI extends JFrame {
 	// controlador dos eventos da janela
-	private JanelaCtrl janelaCtrl = new JanelaCtrl(this);
+	private JanelaCtrl janelaCtrl;
 	// botoes da toolbar
 	protected JButton btnCadastrar;
 	protected JButton btnVerificar;
@@ -43,12 +43,14 @@ public class JanelaGUI extends JFrame {
 	protected JButton btnSubstituirDigitalUser;
 	// lista de usuários cadastrados
 	protected JList listaUser;
-	protected DefaultListModel listaUsuarios;
 
 	/**
 	 * Create the frame.
 	 */
-	protected JanelaGUI() {		
+	protected JanelaGUI() {
+		// cria o objeto controlador da janela
+		janelaCtrl = new JanelaCtrl(this);
+		
 		// carrega a janela
 		setVisible(true);
 		setResizable(false);
@@ -57,6 +59,9 @@ public class JanelaGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
 		setPanel();
+		
+		// exibe a lista de usuários
+		janelaCtrl.carregaListaUsuarios();
 	}
 	
 	// panel
@@ -132,11 +137,10 @@ public class JanelaGUI extends JFrame {
 		lblListaUser.setBounds(411, 0, 130, 29);
 		panel.add(lblListaUser);
 		
-		listaUsuarios = new DefaultListModel();
-		listaUser = new JList(listaUsuarios);
+		listaUser = new JList();
 		listaUser.setFont(new Font("Dialog", Font.PLAIN, 12));
 		listaUser.setBorder(new CompoundBorder(new LineBorder(new Color(70, 130, 180)), new EmptyBorder(2, 6, 0, 6)));
-		listaUser.setBounds(411, 28, 130, 331);
+		listaUser.setBounds(411, 28, 130, 331);		
 
 		panel.add(listaUser);
 		
