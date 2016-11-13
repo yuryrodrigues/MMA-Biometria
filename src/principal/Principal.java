@@ -12,7 +12,7 @@ public class Principal {
 	}
 
 	public Principal() {
-		// objeto da classe que manipulará o scanner e o DB
+		// cria o objeto da classe que manipulará o scanner e o DB
 		ffv = ScannerNffv.getNffv();
 		
 		// exibe a janela do gerenciador de usuários

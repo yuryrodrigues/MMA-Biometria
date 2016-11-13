@@ -1,5 +1,11 @@
 package principal;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.EOFException;
@@ -8,10 +14,22 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.border.EmptyBorder;
 
 import com.neurotechnology.Nffv.Nffv;
 import com.neurotechnology.Nffv.NffvStatus;
@@ -28,6 +46,9 @@ public class JanelaCtrl implements ActionListener {
 	
 	// lista de usuarios cadastrados
 	DefaultListModel listaUsuarios;;
+	
+	// janelas de dialogo
+	JDialog jDialogProgressoLeitura;
 	
 	public JanelaCtrl(JanelaGUI janela){
 		// o endereco da JanelaGUI
@@ -136,10 +157,31 @@ public class JanelaCtrl implements ActionListener {
 		if(nomeUsuario == null) return;
 		
 		try{
-			// lê a digital
-			NffvUser novoUsuario = ffv.enroll(TIMEOUT);
+			// executa a leitura da digital no plano de fundo
+	        SwingWorker<NffvUser,Void> worker = new SwingWorker<NffvUser,Void>(){
+	            @Override
+	            protected NffvUser doInBackground(){
+	            	// le a digital do usuario
+	            	NffvUser novoUsuario = ffv.enroll(TIMEOUT);
+	                return novoUsuario;
+	            }
+	         
+	            @Override
+	            protected void done(){
+	            	// oculta a janela de progresso
+	            	jDialogEscaneandoDigital(false);
+	            }
+	        };
+	        worker.execute();
+	        
+	        // exibe a janela de progresso
+	        jDialogEscaneandoDigital(true);
+	        
+	        // retorna a digital lida
+	        NffvUser novoUsuario = worker.get();
+	     
 			System.out.println(ffv.getEngineStatus());
-		
+			
 			// se não conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
 				JOptionPane.showMessageDialog(janelaDono, "Falha no cadastro da digital - " + ffv.getEngineStatus(), "Falhou", JOptionPane.ERROR_MESSAGE);
@@ -250,5 +292,45 @@ public class JanelaCtrl implements ActionListener {
 		janelaDono.spinnerNivelAcesso.setEnabled(true);
 		janelaDono.btnSalvarDadosUser.setEnabled(true);
 		janelaDono.btnSubstituirDigitalUser.setEnabled(true);
+	}
+
+	// exibe uma janela de dialogo informando que esta escaneado a digital
+	private void jDialogEscaneandoDigital(boolean op){		
+		if(jDialogProgressoLeitura == null){
+			/* cria a janela de dialogo informando que esta escaneando a digital */
+	        jDialogProgressoLeitura = new JDialog(janelaDono, true);	        
+	        jDialogProgressoLeitura.setResizable(false);
+	        jDialogProgressoLeitura.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+	        jDialogProgressoLeitura.setBounds(100, 100, 255, 117);
+	        jDialogProgressoLeitura.setPreferredSize(new Dimension(255, 117));
+	        jDialogProgressoLeitura.getContentPane().setLayout(new BorderLayout());
+	        JPanel contentPanel = new JPanel();
+	        contentPanel.setBackground(Color.WHITE);
+			contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+			jDialogProgressoLeitura.getContentPane().add(contentPanel, BorderLayout.CENTER);
+			contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
+			
+			JLabel lblNewLabel = new JLabel("Escaneando a digital...");
+			//lblNewLabel.setBounds(25, 11, 199, 16);
+			contentPanel.add(lblNewLabel);
+			
+			JProgressBar progressBar = new JProgressBar();
+			progressBar.setString("0");
+			progressBar.setForeground(SystemColor.textHighlight);
+			progressBar.setIndeterminate(true);
+			//progressBar.setBounds(25, 38, 199, 28);
+			contentPanel.add(progressBar);			
+			
+			jDialogProgressoLeitura.setLocationRelativeTo(janelaDono);
+			jDialogProgressoLeitura.pack();
+		}
+		
+		// exibe ou fecha a janela de progresso
+		if(op == true){
+			jDialogProgressoLeitura.setVisible(true);
+		}
+		else{
+			jDialogProgressoLeitura.dispose();
+		}
 	}
 }
