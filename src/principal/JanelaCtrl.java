@@ -31,12 +31,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.neurotechnology.Nffv.Nffv;
 import com.neurotechnology.Nffv.NffvStatus;
 import com.neurotechnology.Nffv.NffvUser;
 
-public class JanelaCtrl implements ActionListener {
+public class JanelaCtrl implements ActionListener, ListSelectionListener {
 
 	// tempo maximo de tentativa de leitura da digital
 	static final int TIMEOUT = 10000;
@@ -193,10 +195,10 @@ public class JanelaCtrl implements ActionListener {
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
 			// se as digitais são compativeis
 			if( compatibilidadeUsuario > 0){
-				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " verificado. \n Compatibilidade da impressão digital: " + compatibilidadeUsuario,"Verificado",JOptionPane.DEFAULT_OPTION);
+				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " foi verificado. \n Compatibilidade da impressão digital: " + compatibilidadeUsuario,"Verificado",JOptionPane.DEFAULT_OPTION);
 			}
 			else{ 
-				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " não verificado.\nAs impressões digitais não são compativeis.","Falha na verificação",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " não foi verificado.\nAs impressões digitais não são compativeis.","Falha na verificação",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		else{
@@ -391,5 +393,11 @@ public class JanelaCtrl implements ActionListener {
 		else{
 			jDialogProgressoLeitura.dispose();
 		}
+	}
+
+	// exibe as informações do usuário selecionado
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		atualizaBoxUser();
 	}
 }

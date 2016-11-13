@@ -141,7 +141,8 @@ public class JanelaGUI extends JFrame {
 		listaUser.setFont(new Font("Dialog", Font.PLAIN, 12));
 		listaUser.setBorder(new CompoundBorder(new LineBorder(new Color(70, 130, 180)), new EmptyBorder(2, 6, 0, 6)));
 		listaUser.setBounds(411, 28, 130, 331);		
-
+		listaUser.addListSelectionListener(janelaCtrl);
+		
 		panel.add(listaUser);
 		
 		jpanelBoxInfoUser = new JPanel();
