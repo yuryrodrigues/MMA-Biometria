@@ -84,6 +84,20 @@ public class JanelaCtrl implements ActionListener {
 	
 	// remove todos os usuáros do DB
 	private void removerTodosUsuarios(){
+		// pergunta se deseja remover todo os usuarios
+		Object[] options = { "SIM", "NÃO" };	
+		int desejaRemover = JOptionPane.showOptionDialog(janelaDono,
+			    "Deseja remover todos os usuários cadastrados?",
+			    "",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.WARNING_MESSAGE,
+			    null,
+			    options,
+			    options[1]);
+		
+		// caso não deseje, não faz nada
+		if(desejaRemover == 1) return;
+		
 		// remove os usuario da lista do DB 
 		ffv.clearUsers();
 		listaUsuarios.removeAllElements();
@@ -106,6 +120,20 @@ public class JanelaCtrl implements ActionListener {
 			return;
 		}
 		
+		// pergunta se deseja remover o usuario		
+		Object[] options = { "SIM", "NÃO" };	
+		int desejaRemover = JOptionPane.showOptionDialog(janelaDono,
+			    "Deseja remover este(s) usuário(s)?",
+			    "",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.WARNING_MESSAGE,
+			    null,
+			    options,
+			    options[1]);
+		
+		// caso não deseje, não faz nada
+		if(desejaRemover == 1) return;
+		
 		for (Object object : usuariosSelecionados) {
 			// remove o usuário da lista do DB
 			ffv.removeUserID(((Usuario)object).getID());
@@ -117,6 +145,9 @@ public class JanelaCtrl implements ActionListener {
 			// salva a nova lista de usuárioss
 			salvarUsuarios();
 		}
+		
+		// seleciona o primeiro usuário na lista de usuarios
+		janelaDono.listaUser.setSelectedIndex(janelaDono.listaUser.getFirstVisibleIndex());
 	}
 	
 	// verifica um usuario/checa sua digital
@@ -223,8 +254,8 @@ public class JanelaCtrl implements ActionListener {
 			JOptionPane.showMessageDialog(janelaDono, "Falha no cadastro da digital - " + e.getMessage(), "Falhou", JOptionPane.ERROR_MESSAGE);
 		}
 		
-		// atualiza o box com as informações do usuario
-		atualizaBoxUser();
+		// seleciona o usuario cadastrado na lista de usuarios
+		janelaDono.listaUser.setSelectedIndex(janelaDono.listaUser.getLastVisibleIndex());
 	}
 	
 	// salva a lista de usuarios atualizada no banco de dados
@@ -247,7 +278,7 @@ public class JanelaCtrl implements ActionListener {
 		}
 	}
 	
-	// salva a lista de usuarios atualizada no banco de dados
+	// lê a lista de usuário cadastrados no banco de dados
 	protected void carregaListaUsuarios(){
 		// define o arquivo com o banco de dados das digitais
 		File arquivoDB = new File(ScannerNffv.getBancoDeDados() + ".fdb");
@@ -275,6 +306,12 @@ public class JanelaCtrl implements ActionListener {
 		
 		// adiciona o modelo com a lista de usuários na janela
 		janelaDono.listaUser.setModel(listaUsuarios);
+		
+		// seleciona o primeiro usuário na lista de usuarios
+		janelaDono.listaUser.setSelectedIndex(0);
+		
+		// atualiza o box com os dados do usuário
+		atualizaBoxUser();
 	}
 		
 	// atualiza a lista de usuários na janela
