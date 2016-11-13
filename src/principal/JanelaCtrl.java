@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -132,8 +133,30 @@ public class JanelaCtrl implements ActionListener {
 		// busca o usuário selecionado no banco de dado
 		NffvUser usuarioDB = ffv.getUserByID(usuarioSelecionado.getID());
 		
-		// escaneia a digital e verifica se ela é cmpatível com a salva no DB
-		int compatibilidadeUsuario = ffv.verify(usuarioDB, TIMEOUT);
+		// executa a leitura da digital no plano de fundo
+        SwingWorker<Integer,Void> worker = new SwingWorker<Integer,Void>(){
+            @Override
+            protected Integer doInBackground(){
+            	// le a digital do usuario
+                return ffv.verify(usuarioDB, TIMEOUT);
+            }
+         
+            @Override
+            protected void done(){
+            	// fecha a janela de progresso
+            	jDialogEscaneandoDigital(false);
+            }
+        };
+        worker.execute();
+        
+        // exibe a janela de progresso
+        jDialogEscaneandoDigital(true);
+        
+        // retorna a digital lida
+        int compatibilidadeUsuario = 0;
+		try {
+			compatibilidadeUsuario = worker.get();
+		} catch (InterruptedException | ExecutionException e) {}
 		
 		// se conseguiu escanear a digital
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
@@ -162,13 +185,12 @@ public class JanelaCtrl implements ActionListener {
 	            @Override
 	            protected NffvUser doInBackground(){
 	            	// le a digital do usuario
-	            	NffvUser novoUsuario = ffv.enroll(TIMEOUT);
-	                return novoUsuario;
+	                return ffv.enroll(TIMEOUT);
 	            }
 	         
 	            @Override
 	            protected void done(){
-	            	// oculta a janela de progresso
+	            	// fecha a janela de progresso
 	            	jDialogEscaneandoDigital(false);
 	            }
 	        };
@@ -229,7 +251,7 @@ public class JanelaCtrl implements ActionListener {
 	protected void carregaListaUsuarios(){
 		// define o arquivo com o banco de dados das digitais
 		File arquivoDB = new File(ScannerNffv.getBancoDeDados() + ".fdb");
-		System.out.println("qt lista use:"+listaUsuarios.size());
+		
 		// verifica se o arquivo existe
 		if(arquivoDB.exists()){
 			try{
