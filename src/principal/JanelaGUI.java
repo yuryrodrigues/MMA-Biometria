@@ -61,7 +61,7 @@ public class JanelaGUI extends JFrame {
 		
 		setPanel();
 		
-		// exibe a lista de usu�rios
+		// exibe a lista de usuarios
 		janelaCtrl.carregaListaUsuarios();
 	}
 	
@@ -178,8 +178,6 @@ public class JanelaGUI extends JFrame {
 		btnSalvarDadosUser.addActionListener(janelaCtrl);
 		
 		lblImgDigital = new JLabel("");
-		/*ImageIcon img_icone = new ImageIcon(getClass().getResource("/img/logo.png"));
-		lblImgDigital.setIcon(img_icone);*/
 		lblImgDigital.setOpaque(true);
 		lblImgDigital.setBounds(37, 106, 337, 182);
 		lblImgDigital.setHorizontalAlignment(SwingConstants.CENTER);

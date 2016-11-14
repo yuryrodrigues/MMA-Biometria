@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -42,6 +44,8 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 
 	// tempo maximo de tentativa de leitura da digital
 	static final int TIMEOUT = 10000;
+	// numero maximo de usuarios permitidos
+	static final int QT_MAX_USER = 9;
 	
 	// JanelaGUI e o sdk para manipular o scanner
 	private JanelaGUI janelaDono;
@@ -339,16 +343,30 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
 			// se as digitais são compativeis
 			if( compatibilidadeUsuario > 0){
+				// icone da janela
+				ImageIcon imageIcon = new ImageIcon(SobreGUI.class.getResource("/img/icon-digital-verificada.png"));
+		        Image image = imageIcon.getImage();
+		        Image novaImg = image.getScaledInstance(85, 74,  java.awt.Image.SCALE_SMOOTH);
+		        imageIcon = new ImageIcon(novaImg);
+				
 				JOptionPane.showMessageDialog(janelaDono,
 						usuarioSelecionado.getNome() + " foi verificado(a). \nAs impressões digitais são compativeis.",
 						"Verificado",
-						JOptionPane.DEFAULT_OPTION);
+						JOptionPane.DEFAULT_OPTION,
+						imageIcon);
 			}
-			else{ 
+			else{
+				// icone da janela
+				ImageIcon imageIcon = new ImageIcon(SobreGUI.class.getResource("/img/icon-digital-nao-verificada.png"));
+		        Image image = imageIcon.getImage();
+		        Image novaImg = image.getScaledInstance(85, 74,  java.awt.Image.SCALE_SMOOTH);
+		        imageIcon = new ImageIcon(novaImg);
+		        
 				JOptionPane.showMessageDialog(janelaDono,
 						usuarioSelecionado.getNome() + " não foi verificado(a).\nAs impressões digitais não são compativeis.",
 						"Falha na verificação",
-						JOptionPane.ERROR_MESSAGE);
+						JOptionPane.ERROR_MESSAGE,
+						imageIcon);
 			}
 		}
 		else{
@@ -363,7 +381,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	private void cadastrarUser(){
 		// verifica se já atingiu o limite de usuários permitidos
 		// nao pode usar o contagem de ffv; pois aparece mais usuarios do que realmente existem
-		if(listaUsuarios.size() >= 9){
+		if(listaUsuarios.size() >= QT_MAX_USER){
 			// informa que já atingiu o limite
 			JOptionPane.showMessageDialog(janelaDono,
 					"Só é permitido o cadastro de 9 usuários :(",

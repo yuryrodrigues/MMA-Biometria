@@ -1,14 +1,12 @@
 package principal;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.awt.Color;
 
 public class SobreGUI extends javax.swing.JPanel {
 
@@ -16,7 +14,6 @@ public class SobreGUI extends javax.swing.JPanel {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
@@ -71,8 +68,8 @@ public class SobreGUI extends javax.swing.JPanel {
         // redimensiona a logomarca
         ImageIcon imageIcon = new ImageIcon(SobreGUI.class.getResource("/img/logomarca-mma.png"));
         Image image = imageIcon.getImage();
-        Image newimg = image.getScaledInstance(151, 131,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
+        Image novaImg = image.getScaledInstance(151, 131,  java.awt.Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(novaImg);
         
         lblLogoChat.setIcon(imageIcon);
         lblLogoChat.setAlignmentX(0.5F);
