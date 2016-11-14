@@ -11,6 +11,7 @@ public class Usuario implements Serializable{
 	public Usuario(int id, String nome){
 		this.id = id;
 		this.nome = nome;
+		this.nivelAcesso = 1;
 	}
 	
 	public void setID(int iD) {
