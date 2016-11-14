@@ -188,6 +188,8 @@ public class JanelaGUI extends JFrame {
 		btnSubstituirDigitalUser = new JButton("Substituir digital");
 		btnSubstituirDigitalUser.setEnabled(false);
 		btnSubstituirDigitalUser.setBounds(37, 293, 337, 28);
+		btnSubstituirDigitalUser.addActionListener(janelaCtrl);
+		
 		jpanelBoxInfoUser.add(btnSubstituirDigitalUser);
 		jpanelBoxInfoUser.add(lblImgDigital);
 		jpanelBoxInfoUser.add(lblNivelDeAcesso);

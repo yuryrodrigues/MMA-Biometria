@@ -82,6 +82,9 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		else if(arg0.getSource() == janelaDono.btnSalvarDadosUser){
 			atualizaDadosUsuarioSelecionado();
 		}
+		else if(arg0.getSource() == janelaDono.btnSubstituirDigitalUser){
+			substituirDigitalUsuario();
+		}
 		
 		// atualiza o box com os dados do usuário
 		atualizaBoxUser();
@@ -101,6 +104,66 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// salva a nova lista de usuários
 		salvarUsuarios();
+	}
+	
+	// substitui a digital do usuario
+	private void substituirDigitalUsuario(){		
+		try{
+			// executa a leitura da digital no plano de fundo
+	        SwingWorker<NffvUser,Void> worker = new SwingWorker<NffvUser,Void>(){
+	            @Override
+	            protected NffvUser doInBackground(){
+	            	// le a digital do usuario
+	                return ffv.enroll(TIMEOUT);
+	            }
+	         
+	            @Override
+	            protected void done(){
+	            	// fecha a janela de progresso
+	            	jDialogEscaneandoDigital(false);
+	            }
+	        };
+	        worker.execute();
+	        
+	        // exibe a janela de progresso
+	        jDialogEscaneandoDigital(true);
+	        
+	        // retorna a digital lida
+	        NffvUser novoUsuario = worker.get();
+	     
+			System.out.println(ffv.getEngineStatus());
+			
+			// se não conseguiu ler a digital
+			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
+				JOptionPane.showMessageDialog(janelaDono, 
+						"Falha na leitura da digital: \n" + ffv.getEngineStatus(), 
+						"Falhou", 
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			// pega o usuario selecionado na lista
+			Usuario usuarioSelecionado = (Usuario)janelaDono.listaUser.getSelectedValue();
+			
+			// cria um novo usuario com os dados do antigo
+			Usuario usuarioNovo = new Usuario(novoUsuario.getID(),usuarioSelecionado.getNome());
+			usuarioNovo.setNivelAcesso(usuarioSelecionado.getNivelAcesso());
+					
+			// substitui o usuario selecionado pelo novo usuario
+			listaUsuarios.set(janelaDono.listaUser.getSelectedIndex(), usuarioNovo);
+			
+			// salva o usuario no DB
+			salvarUsuarios();
+		}catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(janelaDono, 
+					"Falha na leitura da digital: \n" + e.getMessage(), 
+					"Falhou", 
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		// seleciona o usuario substituido na lista de usuarios
+		janelaDono.listaUser.setSelectedIndex(janelaDono.listaUser.getSelectedIndex());
 	}
 	
 	// remove todos os usuáros do DB
@@ -137,7 +200,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// se não foi selecionado nenhum usuário
 		if(usuariosSelecionados.length == 0){
-			JOptionPane.showMessageDialog(janelaDono,"Selecione o usuário que deseja remover","",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(janelaDono,
+					"Selecione o usuário que deseja remover",
+					"",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
@@ -178,7 +244,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// se não foi selecionado nenhum usuário
 		if(usuarioSelecionado == null){
-			JOptionPane.showMessageDialog(janelaDono,"Selecione o usuário que deseja verificar","",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(janelaDono,
+					"Selecione o usuário que deseja verificar",
+					"",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
@@ -214,21 +283,33 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
 			// se as digitais são compativeis
 			if( compatibilidadeUsuario > 0){
-				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " foi verificado. \n Compatibilidade da impressão digital: " + compatibilidadeUsuario,"Verificado",JOptionPane.DEFAULT_OPTION);
+				JOptionPane.showMessageDialog(janelaDono,
+						usuarioSelecionado.getNome() + " foi verificado(a). \nAs impressões digitais são compativeis.",
+						"Verificado",
+						JOptionPane.DEFAULT_OPTION);
 			}
 			else{ 
-				JOptionPane.showMessageDialog(janelaDono,usuarioSelecionado.getNome() + " não foi verificado.\nAs impressões digitais não são compativeis.","Falha na verificação",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(janelaDono,
+						usuarioSelecionado.getNome() + " não foi verificado(a).\nAs impressões digitais não são compativeis.",
+						"Falha na verificação",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		else{
-			JOptionPane.showMessageDialog(janelaDono,"Falha na verificação - " + ffv.getEngineStatus(),"Falha",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(janelaDono,
+					"Falha na verificação: \n" + ffv.getEngineStatus(),
+					"Falha",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
 	// cadastra um usuario no banco de dados
 	private void cadastrarUser(){
 		// pega o nome do novo usuário
-		String nomeUsuario = JOptionPane.showInputDialog(janelaDono, new JLabel("Digite o nome do usuário"), "Cadastrar usuário", JOptionPane.QUESTION_MESSAGE);
+		String nomeUsuario = JOptionPane.showInputDialog(janelaDono, 
+				new JLabel("Digite o nome do usuário"), 
+				"Cadastrar usuário", 
+				JOptionPane.QUESTION_MESSAGE);
 		if(nomeUsuario == null) return;
 		
 		try{
@@ -258,12 +339,12 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			
 			// se não conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
-				JOptionPane.showMessageDialog(janelaDono, "Falha no cadastro da digital - " + ffv.getEngineStatus(), "Falhou", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(janelaDono, 
+						"Falha no cadastro da digital: \n" + ffv.getEngineStatus(), 
+						"Falhou", 
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-		
-			// exibe a digital na tela de cadastro
-			janelaDono.lblImgDigital.setIcon(novoUsuario.getNffvImage().getImageIcon());
 			
 			// adiciona o usuario na lista de usuarios cadastrados
 			listaUsuarios.addElement(new Usuario(novoUsuario.getID(),nomeUsuario));
@@ -272,7 +353,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			salvarUsuarios();
 		}catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(janelaDono, "Falha no cadastro da digital - " + e.getMessage(), "Falhou", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(janelaDono, 
+					"Falha no cadastro da digital: \n" + e.getMessage(), 
+					"Falhou", 
+					JOptionPane.ERROR_MESSAGE);
 		}
 		
 		// seleciona o usuario cadastrado na lista de usuarios
