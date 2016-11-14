@@ -14,13 +14,13 @@ public class Usuario implements Serializable{
 	}
 	
 	public void setID(int iD) {
-		id = iD;
+		this.id = iD;
 	}
 	public int getID() {
 		return id;
 	}
 	public void setNome(String nome) {
-		nome = nome;
+		this.nome = nome;
 	}
 	public String getNome() {
 		return nome;

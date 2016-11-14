@@ -78,10 +78,29 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		}		
 		else if(arg0.getSource() == janelaDono.btnRemoverTodos){
 			removerTodosUsuarios();
-		}	
+		}
+		else if(arg0.getSource() == janelaDono.btnSalvarDadosUser){
+			atualizaDadosUsuarioSelecionado();
+		}
 		
 		// atualiza o box com os dados do usuário
 		atualizaBoxUser();
+	}
+	
+	// atualiza os dados do usuario selecionado
+	private void atualizaDadosUsuarioSelecionado(){
+		// pega o usuario selecionado na lista
+		Usuario usuarioSelecionado = (Usuario)janelaDono.listaUser.getSelectedValue();
+		
+		// altera os dados do usuário selecionado
+		usuarioSelecionado.setNome(janelaDono.txtNome.getText());
+		usuarioSelecionado.setNivelAcesso((int)janelaDono.spinnerNivelAcesso.getValue());
+		
+		// atualiza a lista de usuários na janela
+		atualizaListaUserJanela();
+		
+		// salva a nova lista de usuários
+		salvarUsuarios();
 	}
 	
 	// remove todos os usuáros do DB

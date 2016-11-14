@@ -174,6 +174,7 @@ public class JanelaGUI extends JFrame {
 		btnSalvarDadosUser.setMaximumSize(new Dimension(63, 20));
 		btnSalvarDadosUser.setMinimumSize(new Dimension(63, 20));
 		btnSalvarDadosUser.setPreferredSize(new Dimension(62, 20));
+		btnSalvarDadosUser.addActionListener(janelaCtrl);
 		
 		lblImgDigital = new JLabel("");
 		/*ImageIcon img_icone = new ImageIcon(getClass().getResource("/img/logo.png"));
