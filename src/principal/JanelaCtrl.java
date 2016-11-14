@@ -53,6 +53,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	// janelas de dialogo
 	JDialog jDialogProgressoLeitura;
 	
+	// mensagens no box do usuario
+	ExecutorService cachedPoolMensagens;
+	Future<?> runFutureMensagem;
+	
 	public JanelaCtrl(JanelaGUI janela){
 		// o endereco da JanelaGUI
 		janelaDono = janela;
@@ -102,6 +106,37 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		atualizaBoxUser();
 	}
 	
+	// exibe ou oculta mensagens no box com informações do usuário
+	private void exibeMensagemBoxUser(){
+		// cria o "conteiner" que contera a thread, caso não exista ainda
+		if(cachedPoolMensagens == null){
+			cachedPoolMensagens = Executors.newCachedThreadPool();
+		}
+		
+		// derruba a contagem anterior, senao ira ocultar a mensagem antes da hora
+		if(runFutureMensagem != null && !runFutureMensagem.isDone()){
+			runFutureMensagem.cancel(true);
+		}
+				
+		// exibe a mensagem
+		janelaDono.lblMsgDadosSalvos.setVisible(true);
+		
+		// oculta a mensagem apos alguns segundos de exibicao
+		Runnable runMensagem = new Runnable(){
+            @Override
+            public void run() {
+            	try {
+					TimeUnit.SECONDS.sleep(3);
+					// oculta a mensagem
+					janelaDono.lblMsgDadosSalvos.setVisible(false);
+				} catch (InterruptedException e) {}				
+            }
+		};
+		
+		// cronometra e oculta a mensagem
+		runFutureMensagem = cachedPoolMensagens.submit(runMensagem);
+	}
+	
 	// atualiza os dados do usuario selecionado
 	private void atualizaDadosUsuarioSelecionado(){
 		// pega o usuario selecionado na lista
@@ -116,6 +151,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// salva a nova lista de usuários
 		salvarUsuarios();
+		
+		// informa que os dados foram salvos com sucesso
+		janelaDono.lblMsgDadosSalvos.setText("Dados salvos com sucesso!");		
+		exibeMensagemBoxUser();
 	}
 	
 	// substitui a digital do usuario
@@ -166,6 +205,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			
 			// salva o usuario no DB
 			salvarUsuarios();
+			
+			// informa que os dados foram salvos com sucesso
+			janelaDono.lblMsgDadosSalvos.setText("Digital substituida!");
+			exibeMensagemBoxUser();			
 		}catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(janelaDono, 

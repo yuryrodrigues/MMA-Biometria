@@ -34,14 +34,15 @@ public class JanelaGUI extends JFrame {
 	protected JButton btnRemover;
 	protected JButton btnRemoverTodos;
 	protected JButton btnSobre;
-	// box com os dados do usuário cadastrado
+	// box com os dados do usuario cadastrado
 	protected JPanel jpanelBoxInfoUser;
 	protected JTextField txtNome;
 	protected JSpinner spinnerNivelAcesso;
 	protected JLabel lblImgDigital;
 	protected JButton btnSalvarDadosUser;
 	protected JButton btnSubstituirDigitalUser;
-	// lista de usuários cadastrados
+	protected JLabel lblMsgDadosSalvos;
+	// lista de usuarios cadastrados
 	protected JList listaUser;
 
 	/**
@@ -60,7 +61,7 @@ public class JanelaGUI extends JFrame {
 		
 		setPanel();
 		
-		// exibe a lista de usuários
+		// exibe a lista de usuï¿½rios
 		janelaCtrl.carregaListaUsuarios();
 	}
 	
@@ -197,5 +198,12 @@ public class JanelaGUI extends JFrame {
 		jpanelBoxInfoUser.add(btnSalvarDadosUser);
 		jpanelBoxInfoUser.add(lblNome);
 		jpanelBoxInfoUser.add(txtNome);
+		
+		lblMsgDadosSalvos = new JLabel("Dados salvos com sucesso!");
+		lblMsgDadosSalvos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMsgDadosSalvos.setVisible(false);
+		lblMsgDadosSalvos.setForeground(new Color(34, 139, 34));
+		lblMsgDadosSalvos.setBounds(12, 5, 387, 16);
+		jpanelBoxInfoUser.add(lblMsgDadosSalvos);
 	}
 }
