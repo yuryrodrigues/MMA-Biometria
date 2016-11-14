@@ -24,6 +24,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 public class JanelaGUI extends JFrame {
 	// controlador dos eventos da janela
@@ -49,6 +50,7 @@ public class JanelaGUI extends JFrame {
 	 * Create the frame.
 	 */
 	protected JanelaGUI() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(JanelaGUI.class.getResource("/img/icon-digital-verificada.png")));
 		// cria o objeto controlador da janela
 		janelaCtrl = new JanelaCtrl(this);
 		
