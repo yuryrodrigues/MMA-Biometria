@@ -188,7 +188,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			
 			// se não conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
-				trataErros(ffv.getEngineStatus());
+				trataErrosEscaner(ffv.getEngineStatus());
 				return;
 			}
 			
@@ -210,11 +210,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			janelaDono.lblMsgDadosSalvos.setText("Digital substituida!");
 			exibeMensagemBoxUser();			
 		}catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(janelaDono, 
-					"Falha na leitura da digital: \n" + e.getMessage(), 
-					"Falhou", 
-					JOptionPane.ERROR_MESSAGE);
+			trataExcecaoEscaner(e);
 		}
 		
 		// seleciona o usuario substituido na lista de usuarios
@@ -333,11 +329,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		try {
 			compatibilidadeUsuario = worker.get();
 		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(janelaDono, 
-					"Falha na verificação da digital: \n" + e.getMessage(), 
-					"Falhou", 
-					JOptionPane.ERROR_MESSAGE);
+			trataExcecaoEscaner(e);
 		}
 		
 		// se conseguiu escanear a digital
@@ -371,7 +363,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			}
 		}
 		else{
-			trataErros(ffv.getEngineStatus());
+			trataErrosEscaner(ffv.getEngineStatus());
 		}
 	}
 	
@@ -420,7 +412,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			
 			// se não conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
-				trataErros(ffv.getEngineStatus());
+				trataErrosEscaner(ffv.getEngineStatus());
 				return;
 			}
 			
@@ -429,12 +421,8 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			
 			// salva o usuario no DB
 			salvarUsuarios();
-		}catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(janelaDono, 
-					"Falha no cadastro da digital: \n" + e.getMessage(), 
-					"Falhou", 
-					JOptionPane.ERROR_MESSAGE);
+		}catch (Exception e) {			
+			trataExcecaoEscaner(e);
 		}
 		
 		// seleciona o usuario cadastrado na lista de usuarios
@@ -583,7 +571,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	}
 	
 	// trata os erros do escaner
-	private void trataErros(NffvStatus erro){
+	private void trataErrosEscaner(NffvStatus erro){
 		String msgErro = null;
 		
 		if(erro == NffvStatus.NoScanner){
@@ -602,6 +590,18 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		JOptionPane.showMessageDialog(janelaDono, 
 				"Falha na leitura da digital: \n" + msgErro, 
 				"Falhou", 
+				JOptionPane.ERROR_MESSAGE);
+	}
+	
+	// trata erros genericos
+	private void trataExcecaoEscaner(Exception erro){
+		// mostra no console
+		erro.printStackTrace();
+		
+		// mostra para o usuario
+		JOptionPane.showMessageDialog(janelaDono, 
+				erro, 
+				"Erro", 
 				JOptionPane.ERROR_MESSAGE);
 	}
 }
