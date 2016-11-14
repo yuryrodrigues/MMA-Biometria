@@ -60,13 +60,13 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// cria a lista que armazenara os usuarios cadastrados
 		listaUsuarios = new DefaultListModel();		
 		
-		// busca o objeto da classe que manipular· o scanner e o DB
+		// busca o objeto da classe que manipular√° o scanner e o DB
 		ffv = ScannerNffv.getNffv();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// se o usuario pediu para cadastrar um novo usu·rio
+		// se o usuario pediu para cadastrar um novo usu√°rio
 		if(arg0.getSource() == janelaDono.btnCadastrar){
 			cadastrarUser();
 		}		
@@ -79,6 +79,18 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		else if(arg0.getSource() == janelaDono.btnRemoverTodos){
 			removerTodosUsuarios();
 		}
+		else if(arg0.getSource() == janelaDono.btnSobre){
+			JPanel sobre = new SobreGUI();
+	        
+	        JOptionPane.showOptionDialog(janelaDono, 
+				sobre, 
+			        "Sobre", 
+			        JOptionPane.NO_OPTION, 
+			        JOptionPane.PLAIN_MESSAGE, 
+			        null, 
+			        new String[]{},
+			        "default");
+		}
 		else if(arg0.getSource() == janelaDono.btnSalvarDadosUser){
 			atualizaDadosUsuarioSelecionado();
 		}
@@ -86,7 +98,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			substituirDigitalUsuario();
 		}
 		
-		// atualiza o box com os dados do usu·rio
+		// atualiza o box com os dados do usu√°rio
 		atualizaBoxUser();
 	}
 	
@@ -95,14 +107,14 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// pega o usuario selecionado na lista
 		Usuario usuarioSelecionado = (Usuario)janelaDono.listaUser.getSelectedValue();
 		
-		// altera os dados do usu·rio selecionado
+		// altera os dados do usu√°rio selecionado
 		usuarioSelecionado.setNome(janelaDono.txtNome.getText());
 		usuarioSelecionado.setNivelAcesso((int)janelaDono.spinnerNivelAcesso.getValue());
 		
-		// atualiza a lista de usu·rios na janela
+		// atualiza a lista de usu√°rios na janela
 		atualizaListaUserJanela();
 		
-		// salva a nova lista de usu·rios
+		// salva a nova lista de usu√°rios
 		salvarUsuarios();
 	}
 	
@@ -133,7 +145,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	     
 			System.out.println(ffv.getEngineStatus());
 			
-			// se n„o conseguiu ler a digital
+			// se n√£o conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
 				JOptionPane.showMessageDialog(janelaDono, 
 						"Falha na leitura da digital: \n" + ffv.getEngineStatus(), 
@@ -166,12 +178,12 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		janelaDono.listaUser.setSelectedIndex(janelaDono.listaUser.getSelectedIndex());
 	}
 	
-	// remove todos os usu·ros do DB
+	// remove todos os usu√°ros do DB
 	private void removerTodosUsuarios(){
 		// pergunta se deseja remover todo os usuarios
-		Object[] options = { "SIM", "N√O" };	
+		Object[] options = { "SIM", "N√ÉO" };	
 		int desejaRemover = JOptionPane.showOptionDialog(janelaDono,
-			    "Deseja remover todos os usu·rios cadastrados?",
+			    "Deseja remover todos os usu√°rios cadastrados?",
 			    "",
 			    JOptionPane.YES_NO_OPTION,
 			    JOptionPane.WARNING_MESSAGE,
@@ -179,38 +191,38 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			    options,
 			    options[1]);
 		
-		// caso n„o deseje, n„o faz nada
+		// caso n√£o deseje, n√£o faz nada
 		if(desejaRemover == 1) return;
 		
 		// remove os usuario da lista do DB 
 		ffv.clearUsers();
 		listaUsuarios.removeAllElements();
 		
-		// atualiza a lista de usu·rios na janela
+		// atualiza a lista de usu√°rios na janela
 		atualizaListaUserJanela();
 		
-		// salva a nova lista de usu·rioss
+		// salva a nova lista de usu√°rioss
 		salvarUsuarios();
 	}
 	
 	// remove usuario(s)
 	private void removerUser(){
-		// pega a lista de usu·ros selecionados
+		// pega a lista de usu√°ros selecionados
 		Object [] usuariosSelecionados = janelaDono.listaUser.getSelectedValues();
 		
-		// se n„o foi selecionado nenhum usu·rio
+		// se n√£o foi selecionado nenhum usu√°rio
 		if(usuariosSelecionados.length == 0){
 			JOptionPane.showMessageDialog(janelaDono,
-					"Selecione o usu·rio que deseja remover",
+					"Selecione o usu√°rio que deseja remover",
 					"",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
 		// pergunta se deseja remover o usuario		
-		Object[] options = { "SIM", "N√O" };	
+		Object[] options = { "SIM", "N√ÉO" };	
 		int desejaRemover = JOptionPane.showOptionDialog(janelaDono,
-			    "Deseja remover este(s) usu·rio(s)?",
+			    "Deseja remover este(s) usu√°rio(s)?",
 			    "",
 			    JOptionPane.YES_NO_OPTION,
 			    JOptionPane.WARNING_MESSAGE,
@@ -218,22 +230,22 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			    options,
 			    options[1]);
 		
-		// caso n„o deseje, n„o faz nada
+		// caso n√£o deseje, n√£o faz nada
 		if(desejaRemover == 1) return;
 		
 		for (Object object : usuariosSelecionados) {
-			// remove o usu·rio da lista do DB
+			// remove o usu√°rio da lista do DB
 			ffv.removeUserID(((Usuario)object).getID());
 			listaUsuarios.removeElement((Usuario)object);
 			
-			// atualiza a lista de usu·rios na janela
+			// atualiza a lista de usu√°rios na janela
 			atualizaListaUserJanela();
 			
-			// salva a nova lista de usu·rioss
+			// salva a nova lista de usu√°rioss
 			salvarUsuarios();
 		}
 		
-		// seleciona o primeiro usu·rio na lista de usuarios
+		// seleciona o primeiro usu√°rio na lista de usuarios
 		janelaDono.listaUser.setSelectedIndex(janelaDono.listaUser.getFirstVisibleIndex());
 	}
 	
@@ -242,16 +254,16 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// pega o usuario selecionado para verificao
 		Usuario usuarioSelecionado = (Usuario)janelaDono.listaUser.getSelectedValue();
 		
-		// se n„o foi selecionado nenhum usu·rio
+		// se n√£o foi selecionado nenhum usu√°rio
 		if(usuarioSelecionado == null){
 			JOptionPane.showMessageDialog(janelaDono,
-					"Selecione o usu·rio que deseja verificar",
+					"Selecione o usu√°rio que deseja verificar",
 					"",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
-		// busca o usu·rio selecionado no banco de dado
+		// busca o usu√°rio selecionado no banco de dado
 		NffvUser usuarioDB = ffv.getUserByID(usuarioSelecionado.getID());
 		
 		// executa a leitura da digital no plano de fundo
@@ -281,23 +293,23 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// se conseguiu escanear a digital
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
-			// se as digitais s„o compativeis
+			// se as digitais s√£o compativeis
 			if( compatibilidadeUsuario > 0){
 				JOptionPane.showMessageDialog(janelaDono,
-						usuarioSelecionado.getNome() + " foi verificado(a). \nAs impressıes digitais s„o compativeis.",
+						usuarioSelecionado.getNome() + " foi verificado(a). \nAs impress√µes digitais s√£o compativeis.",
 						"Verificado",
 						JOptionPane.DEFAULT_OPTION);
 			}
 			else{ 
 				JOptionPane.showMessageDialog(janelaDono,
-						usuarioSelecionado.getNome() + " n„o foi verificado(a).\nAs impressıes digitais n„o s„o compativeis.",
-						"Falha na verificaÁ„o",
+						usuarioSelecionado.getNome() + " n√£o foi verificado(a).\nAs impress√µes digitais n√£o s√£o compativeis.",
+						"Falha na verifica√ß√£o",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		else{
 			JOptionPane.showMessageDialog(janelaDono,
-					"Falha na verificaÁ„o: \n" + ffv.getEngineStatus(),
+					"Falha na verifica√ß√£o: \n" + ffv.getEngineStatus(),
 					"Falha",
 					JOptionPane.ERROR_MESSAGE);
 		}
@@ -305,10 +317,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	
 	// cadastra um usuario no banco de dados
 	private void cadastrarUser(){
-		// pega o nome do novo usu·rio
+		// pega o nome do novo usu√°rio
 		String nomeUsuario = JOptionPane.showInputDialog(janelaDono, 
-				new JLabel("Digite o nome do usu·rio"), 
-				"Cadastrar usu·rio", 
+				new JLabel("Digite o nome do usu√°rio"), 
+				"Cadastrar usu√°rio", 
 				JOptionPane.QUESTION_MESSAGE);
 		if(nomeUsuario == null) return;
 		
@@ -337,7 +349,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	     
 			System.out.println(ffv.getEngineStatus());
 			
-			// se n„o conseguiu ler a digital
+			// se n√£o conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
 				JOptionPane.showMessageDialog(janelaDono, 
 						"Falha no cadastro da digital: \n" + ffv.getEngineStatus(), 
@@ -383,7 +395,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		}
 	}
 	
-	// lÍ a lista de usu·rio cadastrados no banco de dados
+	// l√™ a lista de usu√°rio cadastrados no banco de dados
 	protected void carregaListaUsuarios(){
 		// define o arquivo com o banco de dados das digitais
 		File arquivoDB = new File(ScannerNffv.getBancoDeDados() + ".fdb");
@@ -409,28 +421,28 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			}
 		}
 		
-		// adiciona o modelo com a lista de usu·rios na janela
+		// adiciona o modelo com a lista de usu√°rios na janela
 		janelaDono.listaUser.setModel(listaUsuarios);
 		
-		// seleciona o primeiro usu·rio na lista de usuarios
+		// seleciona o primeiro usu√°rio na lista de usuarios
 		janelaDono.listaUser.setSelectedIndex(0);
 		
-		// atualiza o box com os dados do usu·rio
+		// atualiza o box com os dados do usu√°rio
 		atualizaBoxUser();
 	}
 		
-	// atualiza a lista de usu·rios na janela
+	// atualiza a lista de usu√°rios na janela
 	private void atualizaListaUserJanela(){
-		// atualiza a lista de usu·rios na janela
+		// atualiza a lista de usu√°rios na janela
 		janelaDono.listaUser.updateUI();
 	}
 	
-	// atualiza o box com os dados do usu·rio
+	// atualiza o box com os dados do usu√°rio
 	private void atualizaBoxUser(){
 		// pega o usuario selecionado na lista
 		Usuario usuarioSelecionado = (Usuario)janelaDono.listaUser.getSelectedValue();
 		
-		// caso n„o tenha nenhum usu·rio selecionado, limpa o box de informaÁıes do usu·rio
+		// caso n√£o tenha nenhum usu√°rio selecionado, limpa o box de informa√ß√µes do usu√°rio
 		if(usuarioSelecionado == null){
 			janelaDono.txtNome.setText("");
 			janelaDono.spinnerNivelAcesso.setValue(1);
@@ -445,7 +457,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// busca os dados do usuario selecionado no DB
 		NffvUser usuario = ffv.getUserByID(usuarioSelecionado.getID());
 		
-		// atualiza o box com as informaÁıes do usu·rio
+		// atualiza o box com as informa√ß√µes do usu√°rio
 		janelaDono.txtNome.setText(usuarioSelecionado.getNome());
 		janelaDono.spinnerNivelAcesso.setValue(usuarioSelecionado.getNivelAcesso());
 		try {
@@ -498,7 +510,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		}
 	}
 
-	// exibe as informaÁıes do usu·rio selecionado
+	// exibe as informa√ß√µes do usu√°rio selecionado
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		atualizaBoxUser();
