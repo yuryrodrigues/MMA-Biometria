@@ -92,12 +92,12 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	        
 	        JOptionPane.showOptionDialog(janelaDono, 
 				sobre, 
-			        "Sobre", 
-			        JOptionPane.NO_OPTION, 
-			        JOptionPane.PLAIN_MESSAGE, 
-			        null, 
-			        new String[]{},
-			        "default");
+		        "Sobre", 
+		        JOptionPane.NO_OPTION, 
+		        JOptionPane.PLAIN_MESSAGE, 
+		        null, 
+		        new String[]{},
+		        "default");
 		}
 		else if(arg0.getSource() == janelaDono.btnSalvarDadosUser){
 			atualizaDadosUsuarioSelecionado();
@@ -185,15 +185,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	        
 	        // retorna a digital lida
 	        NffvUser novoUsuario = worker.get();
-	     
-			System.out.println(ffv.getEngineStatus());
 			
 			// se não conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
-				JOptionPane.showMessageDialog(janelaDono, 
-						"Falha na leitura da digital: \n" + ffv.getEngineStatus(), 
-						"Falhou", 
-						JOptionPane.ERROR_MESSAGE);
+				trataErros(ffv.getEngineStatus());
 				return;
 			}
 			
@@ -337,7 +332,13 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
         int compatibilidadeUsuario = 0;
 		try {
 			compatibilidadeUsuario = worker.get();
-		} catch (InterruptedException | ExecutionException e) {}
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(janelaDono, 
+					"Falha na verificação da digital: \n" + e.getMessage(), 
+					"Falhou", 
+					JOptionPane.ERROR_MESSAGE);
+		}
 		
 		// se conseguiu escanear a digital
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
@@ -370,10 +371,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			}
 		}
 		else{
-			JOptionPane.showMessageDialog(janelaDono,
-					"Falha na verificação: \n" + ffv.getEngineStatus(),
-					"Falha",
-					JOptionPane.ERROR_MESSAGE);
+			trataErros(ffv.getEngineStatus());
 		}
 	}
 	
@@ -419,15 +417,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	        
 	        // retorna a digital lida
 	        NffvUser novoUsuario = worker.get();
-	     
-			System.out.println(ffv.getEngineStatus());
 			
 			// se não conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
-				JOptionPane.showMessageDialog(janelaDono, 
-						"Falha no cadastro da digital: \n" + ffv.getEngineStatus(), 
-						"Falhou", 
-						JOptionPane.ERROR_MESSAGE);
+				trataErros(ffv.getEngineStatus());
 				return;
 			}
 			
@@ -587,5 +580,28 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		atualizaBoxUser();
+	}
+	
+	// trata os erros do escaner
+	private void trataErros(NffvStatus erro){
+		String msgErro = null;
+		
+		if(erro == NffvStatus.NoScanner){
+			msgErro = "Nenhum escaner detectado";
+		}
+		else if(erro == NffvStatus.ScannerTimeout){
+			msgErro = "Tempo limite de leitura da digital esgotado";
+		}
+		else if(erro == NffvStatus.QualityCheckFailed){
+			msgErro = "Falha na checagem da qualidade da digital";
+		}
+		else if(erro == NffvStatus.None){
+			msgErro = "Erro desconhecido";
+		}
+		
+		JOptionPane.showMessageDialog(janelaDono, 
+				"Falha na leitura da digital: \n" + msgErro, 
+				"Falhou", 
+				JOptionPane.ERROR_MESSAGE);
 	}
 }
