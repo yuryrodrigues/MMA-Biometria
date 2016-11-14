@@ -201,7 +201,8 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			usuarioNovo.setNivelAcesso(usuarioSelecionado.getNivelAcesso());
 					
 			// substitui o usuario selecionado pelo novo usuario
-			listaUsuarios.set(janelaDono.listaUser.getSelectedIndex(), usuarioNovo);
+			ffv.removeUserID(usuarioSelecionado.getID());
+			listaUsuarios.set(janelaDono.listaUser.getSelectedIndex(), usuarioNovo);		
 			
 			// salva o usuario no DB
 			salvarUsuarios();
@@ -360,6 +361,17 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	
 	// cadastra um usuario no banco de dados
 	private void cadastrarUser(){
+		// verifica se já atingiu o limite de usuários permitidos
+		// nao pode usar o contagem de ffv; pois aparece mais usuarios do que realmente existem
+		if(listaUsuarios.size() >= 9){
+			// informa que já atingiu o limite
+			JOptionPane.showMessageDialog(janelaDono,
+					"Só é permitido o cadastro de 9 usuários :(",
+					"",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
 		// pega o nome do novo usuário
 		String nomeUsuario = JOptionPane.showInputDialog(janelaDono, 
 				new JLabel("Digite o nome do usuário"), 
