@@ -6,6 +6,7 @@ public class Usuario implements Serializable{
 
 	private int id;
 	private String nome;
+	private String nomeUsuario;
 	private int nivelAcesso;
 	
 	public Usuario(int id, String nome){
@@ -20,6 +21,7 @@ public class Usuario implements Serializable{
 	public int getID() {
 		return id;
 	}
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -27,10 +29,16 @@ public class Usuario implements Serializable{
 		return nome;
 	}
 	
+	public void setNomeUsuario(String nomeUsuario) {
+		this.nomeUsuario = nomeUsuario;
+	}
+	public String getNomeUsuario() {
+		return nomeUsuario;
+	}
+	
 	public int getNivelAcesso() {
 		return nivelAcesso;
 	}
-
 	public void setNivelAcesso(int nivelAcesso) {
 		this.nivelAcesso = nivelAcesso;
 	}

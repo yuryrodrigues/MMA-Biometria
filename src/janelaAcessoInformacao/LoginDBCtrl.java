@@ -160,7 +160,7 @@ public class LoginDBCtrl implements ActionListener {
 				// le os usuarios do arquivo de banco de dados
 				for (Usuario usuario = (Usuario)arquivo.readObject(); usuario != null; usuario = (Usuario)arquivo.readObject()){
 					// adiciona o usuario a lista de usuarios
-					listaUsuarios.put(usuario.getNome(), usuario);
+					listaUsuarios.put(usuario.getNomeUsuario(), usuario);
 				}
 				
 				arquivo.close();

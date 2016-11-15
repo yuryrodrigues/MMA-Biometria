@@ -38,13 +38,14 @@ public class JanelaGUI extends JFrame {
 	// box com os dados do usuario cadastrado
 	protected JPanel jpanelBoxInfoUser;
 	protected JTextField txtNome;
+	protected JTextField txtNomeUsuario;
 	protected JSpinner spinnerNivelAcesso;
 	protected JLabel lblImgDigital;
 	protected JButton btnSalvarDadosUser;
 	protected JButton btnSubstituirDigitalUser;
 	protected JLabel lblMsgDadosSalvos;
 	// lista de usuarios cadastrados
-	protected JList listaUser;
+	protected JList listaUser;	
 
 	/**
 	 * Create the frame.
@@ -58,7 +59,7 @@ public class JanelaGUI extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		setTitle("Gerenciar usu\u00E1rios");
-		setBounds(100, 100, 545, 410);
+		setBounds(100, 100, 569, 446);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
 		setPanel();
@@ -137,43 +138,53 @@ public class JanelaGUI extends JFrame {
 		lblListaUser.setForeground(new Color(70, 130, 180));
 		lblListaUser.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListaUser.setBorder(new LineBorder(new Color(70, 130, 180)));
-		lblListaUser.setBounds(411, 0, 130, 29);
+		lblListaUser.setBounds(411, 0, 152, 29);
 		panel.add(lblListaUser);
 		
 		listaUser = new JList();
 		listaUser.setFont(new Font("Dialog", Font.PLAIN, 12));
 		listaUser.setBorder(new CompoundBorder(new LineBorder(new Color(70, 130, 180)), new EmptyBorder(2, 6, 0, 6)));
-		listaUser.setBounds(411, 28, 130, 331);		
+		listaUser.setBounds(411, 28, 152, 364);		
 		listaUser.addListSelectionListener(janelaCtrl);
 		
 		panel.add(listaUser);
 		
 		jpanelBoxInfoUser = new JPanel();
 		jpanelBoxInfoUser.setBackground(SystemColor.window);
-		jpanelBoxInfoUser.setBounds(0, 0, 411, 357);
+		jpanelBoxInfoUser.setBounds(0, 0, 411, 392);
 		panel.add(jpanelBoxInfoUser);
 		
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(37, 32, 43, 14);
+		lblNome.setBounds(37, 35, 43, 14);
 		lblNome.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		txtNome = new JTextField();
 		txtNome.setEnabled(false);
-		txtNome.setBounds(90, 25, 284, 26);
+		txtNome.setBounds(90, 28, 284, 26);
 		txtNome.setColumns(10);
 		
+		JLabel lblUsuario = new JLabel("Usuário:");
+		lblUsuario.setFont(new Font("Arial", Font.BOLD, 12));
+		lblUsuario.setBounds(37, 68, 52, 14);
+		jpanelBoxInfoUser.add(lblUsuario);
+		
+		txtNomeUsuario = new JTextField();
+		txtNomeUsuario.setColumns(10);
+		txtNomeUsuario.setBounds(90, 61, 284, 26);
+		jpanelBoxInfoUser.add(txtNomeUsuario);
+		
 		JLabel lblNivelDeAcesso = new JLabel("N\u00EDvel de acesso:");
-		lblNivelDeAcesso.setBounds(37, 72, 98, 14);
+		lblNivelDeAcesso.setBounds(37, 107, 98, 14);
 		lblNivelDeAcesso.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		spinnerNivelAcesso = new JSpinner();
 		spinnerNivelAcesso.setEnabled(false);
-		spinnerNivelAcesso.setBounds(139, 66, 44, 26);
+		spinnerNivelAcesso.setBounds(139, 101, 44, 26);
 		spinnerNivelAcesso.setModel(new SpinnerNumberModel(1, 1, 3, 1));
 		
 		btnSalvarDadosUser = new JButton("Salvar");
 		btnSalvarDadosUser.setEnabled(false);
-		btnSalvarDadosUser.setBounds(298, 64, 76, 28);
+		btnSalvarDadosUser.setBounds(298, 99, 76, 28);
 		btnSalvarDadosUser.setMaximumSize(new Dimension(63, 20));
 		btnSalvarDadosUser.setMinimumSize(new Dimension(63, 20));
 		btnSalvarDadosUser.setPreferredSize(new Dimension(62, 20));
@@ -181,15 +192,22 @@ public class JanelaGUI extends JFrame {
 		
 		lblImgDigital = new JLabel("");
 		lblImgDigital.setOpaque(true);
-		lblImgDigital.setBounds(37, 106, 337, 182);
+		lblImgDigital.setBounds(37, 141, 337, 182);
 		lblImgDigital.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImgDigital.setBackground(new Color(211, 211, 211));
 		jpanelBoxInfoUser.setLayout(null);
 		
 		btnSubstituirDigitalUser = new JButton("Substituir digital");
 		btnSubstituirDigitalUser.setEnabled(false);
-		btnSubstituirDigitalUser.setBounds(37, 293, 337, 28);
+		btnSubstituirDigitalUser.setBounds(37, 328, 337, 28);
 		btnSubstituirDigitalUser.addActionListener(janelaCtrl);
+		
+		lblMsgDadosSalvos = new JLabel("Dados salvos com sucesso!");
+		lblMsgDadosSalvos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMsgDadosSalvos.setVisible(false);
+		lblMsgDadosSalvos.setForeground(new Color(34, 139, 34));
+		lblMsgDadosSalvos.setBounds(12, 5, 387, 16);
+		jpanelBoxInfoUser.add(lblMsgDadosSalvos);
 		
 		jpanelBoxInfoUser.add(btnSubstituirDigitalUser);
 		jpanelBoxInfoUser.add(lblImgDigital);
@@ -198,12 +216,5 @@ public class JanelaGUI extends JFrame {
 		jpanelBoxInfoUser.add(btnSalvarDadosUser);
 		jpanelBoxInfoUser.add(lblNome);
 		jpanelBoxInfoUser.add(txtNome);
-		
-		lblMsgDadosSalvos = new JLabel("Dados salvos com sucesso!");
-		lblMsgDadosSalvos.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMsgDadosSalvos.setVisible(false);
-		lblMsgDadosSalvos.setForeground(new Color(34, 139, 34));
-		lblMsgDadosSalvos.setBounds(12, 5, 387, 16);
-		jpanelBoxInfoUser.add(lblMsgDadosSalvos);
 	}
 }

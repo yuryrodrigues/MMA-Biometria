@@ -145,6 +145,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// altera os dados do usuário selecionado
 		usuarioSelecionado.setNome(janelaDono.txtNome.getText());
+		usuarioSelecionado.setNomeUsuario(janelaDono.txtNomeUsuario.getText());
 		usuarioSelecionado.setNivelAcesso((int)janelaDono.spinnerNivelAcesso.getValue());
 		
 		// atualiza a lista de usuários na janela
@@ -496,9 +497,11 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// caso não tenha nenhum usuário selecionado, limpa o box de informações do usuário
 		if(usuarioSelecionado == null){
 			janelaDono.txtNome.setText("");
+			janelaDono.txtNomeUsuario.setText("");
 			janelaDono.spinnerNivelAcesso.setValue(1);
 			janelaDono.lblImgDigital.setIcon(null);
 			janelaDono.txtNome.setEnabled(false);
+			janelaDono.txtNomeUsuario.setEnabled(false);
 			janelaDono.spinnerNivelAcesso.setEnabled(false);
 			janelaDono.btnSalvarDadosUser.setEnabled(false);
 			janelaDono.btnSubstituirDigitalUser.setEnabled(false);
@@ -510,12 +513,14 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// atualiza o box com as informações do usuário
 		janelaDono.txtNome.setText(usuarioSelecionado.getNome());
+		janelaDono.txtNomeUsuario.setText(usuarioSelecionado.getNomeUsuario());
 		janelaDono.spinnerNivelAcesso.setValue(usuarioSelecionado.getNivelAcesso());
 		try {
 			janelaDono.lblImgDigital.setIcon(usuario.getNffvImage().getImageIcon());
 		} catch (Exception e) {e.printStackTrace();}
 		
 		janelaDono.txtNome.setEnabled(true);
+		janelaDono.txtNomeUsuario.setEnabled(true);
 		janelaDono.spinnerNivelAcesso.setEnabled(true);
 		janelaDono.btnSalvarDadosUser.setEnabled(true);
 		janelaDono.btnSubstituirDigitalUser.setEnabled(true);
