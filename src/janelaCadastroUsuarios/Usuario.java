@@ -1,4 +1,4 @@
-package principal;
+package janelaCadastroUsuarios;
 
 import java.io.Serializable;
 

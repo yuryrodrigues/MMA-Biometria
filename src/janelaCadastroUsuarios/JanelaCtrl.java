@@ -1,4 +1,4 @@
-package principal;
+package janelaCadastroUsuarios;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -39,6 +39,9 @@ import javax.swing.event.ListSelectionListener;
 import com.neurotechnology.Nffv.Nffv;
 import com.neurotechnology.Nffv.NffvStatus;
 import com.neurotechnology.Nffv.NffvUser;
+
+import compartilhadas.ScannerNffv;
+import compartilhadas.SobreGUI;
 
 public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	// numero maximo de usuarios permitidos

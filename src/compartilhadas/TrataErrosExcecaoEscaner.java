@@ -1,4 +1,4 @@
-package janelaAcessoInformacao;
+package compartilhadas;
 
 import java.awt.Window;
 

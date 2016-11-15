@@ -1,4 +1,4 @@
-package principal;
+package compartilhadas;
 
 import java.awt.Color;
 import java.awt.Dimension;

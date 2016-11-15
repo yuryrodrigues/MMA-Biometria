@@ -1,4 +1,4 @@
-package principal;
+package compartilhadas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

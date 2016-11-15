@@ -1,9 +1,9 @@
-package janelaAcessoInformacao;
+package janelaAcessoDB;
 
 import com.neurotechnology.Nffv.Nffv;
 
-import principal.ScannerNffv;
-import principal.Usuario;
+import compartilhadas.ScannerNffv;
+import janelaCadastroUsuarios.Usuario;
 
 public class Principal {
 	// objeto que manipulara o scanner e o DB

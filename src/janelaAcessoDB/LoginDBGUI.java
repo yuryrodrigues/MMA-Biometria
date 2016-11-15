@@ -1,4 +1,4 @@
-package janelaAcessoInformacao;
+package janelaAcessoDB;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;

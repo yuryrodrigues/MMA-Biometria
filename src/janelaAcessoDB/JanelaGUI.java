@@ -1,4 +1,4 @@
-package janelaAcessoInformacao;
+package janelaAcessoDB;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,8 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 
-import principal.SobreGUI;
-import principal.Usuario;
+import compartilhadas.SobreGUI;
+import janelaCadastroUsuarios.Usuario;
 
 public class JanelaGUI extends JFrame {
 	private JLabel lblNomeUsuario;

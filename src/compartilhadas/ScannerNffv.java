@@ -1,4 +1,4 @@
-package principal;
+package compartilhadas;
 
 import javax.swing.JOptionPane;
 

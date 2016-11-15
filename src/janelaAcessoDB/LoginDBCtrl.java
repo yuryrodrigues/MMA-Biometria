@@ -1,4 +1,4 @@
-package janelaAcessoInformacao;
+package janelaAcessoDB;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -18,10 +18,11 @@ import com.neurotechnology.Nffv.Nffv;
 import com.neurotechnology.Nffv.NffvStatus;
 import com.neurotechnology.Nffv.NffvUser;
 
-import principal.JDialogProgressoLeitura;
-import principal.ScannerNffv;
-import principal.SobreGUI;
-import principal.Usuario;
+import compartilhadas.JDialogProgressoLeitura;
+import compartilhadas.ScannerNffv;
+import compartilhadas.SobreGUI;
+import compartilhadas.TrataErrosExcecaoEscaner;
+import janelaCadastroUsuarios.Usuario;
 
 public class LoginDBCtrl implements ActionListener {
 	// janela principal da aplicacao
