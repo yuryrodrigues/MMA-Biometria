@@ -8,21 +8,22 @@ public abstract class ScannerNffv {
 	static private String senhaDB		= "ministerio_da_educacao";
 	static private int tipoScanner 		= 25; //25=UareU
 	// tempo maximo de tentativa de leitura da digital
-	static public final int TIMEOUT = 10000;
-	static private Nffv nffv = null;
+	static public final int TIMEOUT 	= 10000;
+	// objeto que manipulara o scanner e o DB
+	static private Nffv nffv 			= null;
 	
 	static private void carrega(){
-		// Define o m�dulo do scanner a ser carregado
+		// Define o modulo do scanner a ser carregado
 		ScannerModule[] scanner = new ScannerModule[1];
 		scanner[0] = Nffv.getAvailableScannerModules()[tipoScanner]; 
 		
-		// cria um objeto da classe que manipular� o scanner e o DB
+		// cria um objeto da classe que manipulara o scanner e o DB
 		nffv = new Nffv(bancoDeDados, senhaDB, scanner);
 	}
 
 	// getters e setters
 	static public Nffv getNffv(){
-		// se o sdk ainda n�o foi carregado
+		// se o sdk ainda nao foi carregado
 		if(nffv == null){
 			carrega();
 		}
