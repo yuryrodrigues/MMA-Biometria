@@ -204,15 +204,13 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			// pega o usuario selecionado na lista
 			Usuario usuarioSelecionado = (Usuario)janelaDono.listaUser.getSelectedValue();
 			
-			// cria um novo usuario com os dados do antigo
-			Usuario usuarioNovo = new Usuario(novoUsuario.getID(),usuarioSelecionado.getNome());
-			usuarioNovo.setNivelAcesso(usuarioSelecionado.getNivelAcesso());
-					
-			// substitui o usuario selecionado pelo novo usuario
+			// remove o usuario do banco de digitais
 			ffv.removeUserID(usuarioSelecionado.getID());
-			listaUsuarios.set(janelaDono.listaUser.getSelectedIndex(), usuarioNovo);		
+		
+			// link o usuario do DB com o novo usuario do banco de digitais
+			usuarioSelecionado.setID(novoUsuario.getID());			
 			
-			// salva o usuario no DB
+			// salva a alteração de ID do usuario do DB
 			salvarUsuarios();
 			
 			// informa que os dados foram salvos com sucesso
