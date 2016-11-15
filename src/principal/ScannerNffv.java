@@ -3,35 +3,37 @@ package principal;
 import com.neurotechnology.Nffv.Nffv;
 import com.neurotechnology.Nffv.ScannerModule;
 
-abstract class ScannerNffv {
+public abstract class ScannerNffv {
 	static private String bancoDeDados	= "dbUsuarios";
 	static private String senhaDB		= "ministerio_da_educacao";
 	static private int tipoScanner 		= 25; //25=UareU
+	// tempo maximo de tentativa de leitura da digital
+	static public final int TIMEOUT = 10000;
 	static private Nffv nffv = null;
 	
 	static private void carrega(){
-		// Define o módulo do scanner a ser carregado
+		// Define o mï¿½dulo do scanner a ser carregado
 		ScannerModule[] scanner = new ScannerModule[1];
 		scanner[0] = Nffv.getAvailableScannerModules()[tipoScanner]; 
 		
-		// cria um objeto da classe que manipulará o scanner e o DB
+		// cria um objeto da classe que manipularï¿½ o scanner e o DB
 		nffv = new Nffv(bancoDeDados, senhaDB, scanner);
 	}
 
 	// getters e setters
-	static protected Nffv getNffv(){
-		// se o sdk ainda não foi carregado
+	static public Nffv getNffv(){
+		// se o sdk ainda nï¿½o foi carregado
 		if(nffv == null){
 			carrega();
 		}
 		return nffv;
 	}
 	
-	static protected String getBancoDeDados() {
+	static public String getBancoDeDados() {
 		return bancoDeDados;
 	}
 
-	static protected String getSenhaDB() {
+	static public String getSenhaDB() {
 		return senhaDB;
 	}
 }

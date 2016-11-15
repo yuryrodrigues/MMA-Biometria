@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 import com.neurotechnology.Nffv.Nffv;
 
 public class Principal {
-	// objeto que manipulará o scanner e o DB
+	// objeto que manipulara o scanner e o DB
 	private Nffv ffv;
 	
 	public static void main(String[] args) {
@@ -12,10 +12,10 @@ public class Principal {
 	}
 
 	public Principal() {
-		// cria o objeto da classe que manipulará o scanner e o DB
+		// cria o objeto da classe que manipulara o scanner e o DB
 		ffv = ScannerNffv.getNffv();
 		
-		// exibe a janela do gerenciador de usuários
+		// exibe a janela do gerenciador de usuarios
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

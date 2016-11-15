@@ -41,9 +41,6 @@ import com.neurotechnology.Nffv.NffvStatus;
 import com.neurotechnology.Nffv.NffvUser;
 
 public class JanelaCtrl implements ActionListener, ListSelectionListener {
-
-	// tempo maximo de tentativa de leitura da digital
-	static final int TIMEOUT = 10000;
 	// numero maximo de usuarios permitidos
 	static final int QT_MAX_USER = 9;
 	
@@ -169,7 +166,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	            @Override
 	            protected NffvUser doInBackground(){
 	            	// le a digital do usuario
-	                return ffv.enroll(TIMEOUT);
+	                return ffv.enroll(ScannerNffv.TIMEOUT);
 	            }
 	         
 	            @Override
@@ -310,7 +307,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
             @Override
             protected Integer doInBackground(){
             	// le a digital do usuario
-                return ffv.verify(usuarioDB, TIMEOUT);
+                return ffv.verify(usuarioDB, ScannerNffv.TIMEOUT);
             }
          
             @Override
@@ -393,7 +390,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	            @Override
 	            protected NffvUser doInBackground(){
 	            	// le a digital do usuario
-	                return ffv.enroll(TIMEOUT);
+	                return ffv.enroll(ScannerNffv.TIMEOUT);
 	            }
 	         
 	            @Override
