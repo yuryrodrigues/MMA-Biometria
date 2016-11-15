@@ -41,10 +41,7 @@ import compartilhada.ScannerNffv;
 import compartilhada.SobreGUI;
 import compartilhada.TrataErrosExcecaoEscaner;
 
-public class JanelaCtrl implements ActionListener, ListSelectionListener {
-	// numero maximo de usuarios permitidos
-	static final int QT_MAX_USER = 9;
-	
+public class JanelaCtrl implements ActionListener, ListSelectionListener {	
 	// JanelaGUI e o sdk para manipular o scanner
 	private JanelaGUI janelaDono;
 	private Nffv ffv;
@@ -378,7 +375,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	private void cadastrarUser(){
 		// verifica se já atingiu o limite de usuários permitidos
 		// nao pode usar o contagem de ffv; pois aparece mais usuarios do que realmente existem
-		if(listaUsuarios.size() >= QT_MAX_USER){
+		if(listaUsuarios.size() >= ScannerNffv.QT_MAX_USER){
 			// informa que já atingiu o limite
 			JOptionPane.showMessageDialog(janelaDono,
 					"Só é permitido o cadastro de 9 usuários :(",

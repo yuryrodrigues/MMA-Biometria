@@ -11,6 +11,10 @@ public abstract class ScannerNffv {
 	static private int tipoScanner 		= 25; //25=UareU
 	// tempo maximo de tentativa de leitura da digital
 	static public final int TIMEOUT 	= 10000;
+	// numero maximo de usuarios permitidos
+	// 2 usuarios sao reservados: 1 para substituicao de digital
+	// e 1 para administrar o banco de dados
+	static public final int QT_MAX_USER = 8;
 	// objeto que manipulara o scanner e o DB
 	static private Nffv nffv 			= null;
 	
