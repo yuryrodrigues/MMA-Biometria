@@ -3,7 +3,6 @@ package janelaCadastroUsuarios;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.SystemColor;
@@ -15,7 +14,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,8 +27,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -40,8 +36,10 @@ import com.neurotechnology.Nffv.Nffv;
 import com.neurotechnology.Nffv.NffvStatus;
 import com.neurotechnology.Nffv.NffvUser;
 
-import compartilhadas.ScannerNffv;
-import compartilhadas.SobreGUI;
+import compartilhada.JDialogProgressoLeituraDigital;
+import compartilhada.ScannerNffv;
+import compartilhada.SobreGUI;
+import compartilhada.TrataErrosExcecaoEscaner;
 
 public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	// numero maximo de usuarios permitidos
@@ -50,6 +48,11 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	// JanelaGUI e o sdk para manipular o scanner
 	private JanelaGUI janelaDono;
 	private Nffv ffv;
+	
+	// janela de progresso da leitura da digital
+	private JDialogProgressoLeituraDigital jDialogProgressoLeituraDigital;
+	// trata os erros e excecoes do escaner
+	private TrataErrosExcecaoEscaner trataErrosExcecaoEscaner;
 	
 	// lista de usuarios cadastrados
 	DefaultListModel listaUsuarios;;
@@ -70,6 +73,11 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// busca o objeto da classe que manipulará o scanner e o DB
 		ffv = ScannerNffv.getNffv();
+		
+		// janela de progresso da leitura da digital
+		jDialogProgressoLeituraDigital = new JDialogProgressoLeituraDigital(janelaDono);
+		// trata os erros e excecoes do escaner
+		trataErrosExcecaoEscaner = new TrataErrosExcecaoEscaner(janelaDono);
 	}
 	
 	@Override
@@ -189,7 +197,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			
 			// se não conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
-				trataErrosEscaner(ffv.getEngineStatus());
+				trataErrosExcecaoEscaner.erro(ffv.getEngineStatus());
 				return;
 			}
 			
@@ -211,7 +219,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			janelaDono.lblMsgDadosSalvos.setText("Digital substituida!");
 			exibeMensagemBoxUser();			
 		}catch (Exception e) {
-			trataExcecaoEscaner(e);
+			trataErrosExcecaoEscaner.excecao(e);
 		}
 		
 		// seleciona o usuario substituido na lista de usuarios
@@ -317,20 +325,20 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
             @Override
             protected void done(){
             	// fecha a janela de progresso
-            	jDialogEscaneandoDigital(false);
+            	jDialogProgressoLeituraDigital.exibe(false);
             }
         };
         worker.execute();
         
         // exibe a janela de progresso
-        jDialogEscaneandoDigital(true);
+        jDialogProgressoLeituraDigital.exibe(true);
         
         // retorna a digital lida
         int compatibilidadeUsuario = 0;
 		try {
 			compatibilidadeUsuario = worker.get();
 		} catch (InterruptedException | ExecutionException e) {
-			trataExcecaoEscaner(e);
+			trataErrosExcecaoEscaner.excecao(e);
 		}
 		
 		// se conseguiu escanear a digital
@@ -364,7 +372,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			}
 		}
 		else{
-			trataErrosEscaner(ffv.getEngineStatus());
+			trataErrosExcecaoEscaner.erro(ffv.getEngineStatus());
 		}
 	}
 	
@@ -413,7 +421,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			
 			// se não conseguiu ler a digital
 			if(ffv.getEngineStatus() != NffvStatus.TemplateCreated){
-				trataErrosEscaner(ffv.getEngineStatus());
+				trataErrosExcecaoEscaner.erro(ffv.getEngineStatus());
 				return;
 			}
 			
@@ -423,7 +431,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			// salva o usuario no DB
 			salvarUsuarios();
 		}catch (Exception e) {			
-			trataExcecaoEscaner(e);
+			trataErrosExcecaoEscaner.excecao(e);
 		}
 		
 		// seleciona o usuario cadastrado na lista de usuarios
@@ -573,40 +581,5 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		atualizaBoxUser();
-	}
-	
-	// trata os erros do escaner
-	private void trataErrosEscaner(NffvStatus erro){
-		String msgErro = null;
-		
-		if(erro == NffvStatus.NoScanner){
-			msgErro = "Nenhum escaner detectado";
-		}
-		else if(erro == NffvStatus.ScannerTimeout){
-			msgErro = "Tempo limite de leitura da digital esgotado";
-		}
-		else if(erro == NffvStatus.QualityCheckFailed){
-			msgErro = "Falha na checagem da qualidade da digital";
-		}
-		else if(erro == NffvStatus.None){
-			msgErro = "Erro desconhecido";
-		}
-		
-		JOptionPane.showMessageDialog(janelaDono, 
-				"Falha na leitura da digital: \n" + msgErro, 
-				"Falhou", 
-				JOptionPane.ERROR_MESSAGE);
-	}
-	
-	// trata erros genericos
-	private void trataExcecaoEscaner(Exception erro){
-		// mostra no console
-		erro.printStackTrace();
-		
-		// mostra para o usuario
-		JOptionPane.showMessageDialog(janelaDono, 
-				erro, 
-				"Erro", 
-				JOptionPane.ERROR_MESSAGE);
 	}
 }

@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 
-import compartilhadas.SobreGUI;
+import compartilhada.SobreGUI;
 import janelaCadastroUsuarios.Usuario;
 
 public class JanelaGUI extends JFrame {

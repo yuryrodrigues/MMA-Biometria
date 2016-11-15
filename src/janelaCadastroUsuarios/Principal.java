@@ -3,7 +3,7 @@ package janelaCadastroUsuarios;
 import java.awt.EventQueue;
 import com.neurotechnology.Nffv.Nffv;
 
-import compartilhadas.ScannerNffv;
+import compartilhada.ScannerNffv;
 
 public class Principal {
 	// objeto que manipulara o scanner e o DB

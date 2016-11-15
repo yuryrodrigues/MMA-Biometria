@@ -1,4 +1,4 @@
-package compartilhadas;
+package compartilhada;
 
 import java.awt.Window;
 

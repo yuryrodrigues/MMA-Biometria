@@ -18,10 +18,10 @@ import com.neurotechnology.Nffv.Nffv;
 import com.neurotechnology.Nffv.NffvStatus;
 import com.neurotechnology.Nffv.NffvUser;
 
-import compartilhadas.JDialogProgressoLeituraDigital;
-import compartilhadas.ScannerNffv;
-import compartilhadas.SobreGUI;
-import compartilhadas.TrataErrosExcecaoEscaner;
+import compartilhada.JDialogProgressoLeituraDigital;
+import compartilhada.ScannerNffv;
+import compartilhada.SobreGUI;
+import compartilhada.TrataErrosExcecaoEscaner;
 import janelaCadastroUsuarios.Usuario;
 
 public class LoginDBCtrl implements ActionListener {

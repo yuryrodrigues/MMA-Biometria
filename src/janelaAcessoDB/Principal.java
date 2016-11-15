@@ -2,7 +2,7 @@ package janelaAcessoDB;
 
 import com.neurotechnology.Nffv.Nffv;
 
-import compartilhadas.ScannerNffv;
+import compartilhada.ScannerNffv;
 import janelaCadastroUsuarios.Usuario;
 
 public class Principal {
