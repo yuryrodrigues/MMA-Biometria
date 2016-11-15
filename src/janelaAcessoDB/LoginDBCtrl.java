@@ -18,7 +18,7 @@ import com.neurotechnology.Nffv.Nffv;
 import com.neurotechnology.Nffv.NffvStatus;
 import com.neurotechnology.Nffv.NffvUser;
 
-import compartilhadas.JDialogProgressoLeitura;
+import compartilhadas.JDialogProgressoLeituraDigital;
 import compartilhadas.ScannerNffv;
 import compartilhadas.SobreGUI;
 import compartilhadas.TrataErrosExcecaoEscaner;
@@ -33,7 +33,7 @@ public class LoginDBCtrl implements ActionListener {
 	// lista de usuarios
 	private HashMap<String, Usuario> listaUsuarios;
 	// janela de progresso da leitura da digital
-	private JDialogProgressoLeitura jDialogProgressoLeitura;
+	private JDialogProgressoLeituraDigital jDialogProgressoLeituraDigital;
 	// trata os erros e excecoes do escaner
 	private TrataErrosExcecaoEscaner trataErrosExcecaoEscaner;
 	
@@ -46,7 +46,7 @@ public class LoginDBCtrl implements ActionListener {
 		carregaListaUsuarios();
 		
 		// janela de progresso da leitura da digital
-		jDialogProgressoLeitura = new JDialogProgressoLeitura(this.janelaDono.getJDialog());
+		jDialogProgressoLeituraDigital = new JDialogProgressoLeituraDigital(this.janelaDono.getJDialog());
 		// trata os erros e excecoes do escaner
 		trataErrosExcecaoEscaner = new TrataErrosExcecaoEscaner(this.janelaDono.getJDialog());
 	}
@@ -98,13 +98,13 @@ public class LoginDBCtrl implements ActionListener {
             @Override
             protected void done(){
             	// fecha a janela de progresso
-            	jDialogProgressoLeitura.exibe(false);
+            	jDialogProgressoLeituraDigital.exibe(false);
             }
         };
         worker.execute();
         
         // exibe a janela de progresso
-        jDialogProgressoLeitura.exibe(true);
+        jDialogProgressoLeituraDigital.exibe(true);
         
         // retorna a digital lida
         int compatibilidadeUsuario = 0;

@@ -14,13 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.border.EmptyBorder;
 
-public class JDialogProgressoLeitura {
+public class JDialogProgressoLeituraDigital {
 	// janela de dialogo
 	private JDialog jDialogProgressoLeitura;
 	// janela pai do dialogo de progresso
 	private Window janelaDono;
 	
-	public JDialogProgressoLeitura(Window janelaDono){
+	public JDialogProgressoLeituraDigital(Window janelaDono){
 		this.janelaDono = janelaDono;
 	}
 	
