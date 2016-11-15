@@ -184,13 +184,13 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	            @Override
 	            protected void done(){
 	            	// fecha a janela de progresso
-	            	jDialogEscaneandoDigital(false);
+	            	jDialogProgressoLeituraDigital.exibe(false);
 	            }
 	        };
 	        worker.execute();
 	        
 	        // exibe a janela de progresso
-	        jDialogEscaneandoDigital(true);
+	        jDialogProgressoLeituraDigital.exibe(true);
 	        
 	        // retorna a digital lida
 	        NffvUser novoUsuario = worker.get();
@@ -406,13 +406,13 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	            @Override
 	            protected void done(){
 	            	// fecha a janela de progresso
-	            	jDialogEscaneandoDigital(false);
+	            	jDialogProgressoLeituraDigital.exibe(false);
 	            }
 	        };
 	        worker.execute();
 	        
 	        // exibe a janela de progresso
-	        jDialogEscaneandoDigital(true);
+	        jDialogProgressoLeituraDigital.exibe(true);
 	        
 	        // retorna a digital lida
 	        NffvUser novoUsuario = worker.get();
@@ -533,46 +533,6 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		janelaDono.spinnerNivelAcesso.setEnabled(true);
 		janelaDono.btnSalvarDadosUser.setEnabled(true);
 		janelaDono.btnSubstituirDigitalUser.setEnabled(true);
-	}
-
-	// exibe uma janela de dialogo informando que esta escaneado a digital
-	private void jDialogEscaneandoDigital(boolean op){		
-		if(jDialogProgressoLeitura == null){
-			/* cria a janela de dialogo informando que esta escaneando a digital */
-	        jDialogProgressoLeitura = new JDialog(janelaDono, true);	        
-	        jDialogProgressoLeitura.setResizable(false);
-	        jDialogProgressoLeitura.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-	        jDialogProgressoLeitura.setBounds(100, 100, 255, 117);
-	        jDialogProgressoLeitura.setPreferredSize(new Dimension(255, 117));
-	        jDialogProgressoLeitura.getContentPane().setLayout(new BorderLayout());
-	        JPanel contentPanel = new JPanel();
-	        contentPanel.setBackground(Color.WHITE);
-			contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-			jDialogProgressoLeitura.getContentPane().add(contentPanel, BorderLayout.CENTER);
-			contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
-			
-			JLabel lblNewLabel = new JLabel("Escaneando a digital...");
-			//lblNewLabel.setBounds(25, 11, 199, 16);
-			contentPanel.add(lblNewLabel);
-			
-			JProgressBar progressBar = new JProgressBar();
-			progressBar.setString("0");
-			progressBar.setForeground(SystemColor.textHighlight);
-			progressBar.setIndeterminate(true);
-			//progressBar.setBounds(25, 38, 199, 28);
-			contentPanel.add(progressBar);			
-			
-			jDialogProgressoLeitura.setLocationRelativeTo(janelaDono);
-			jDialogProgressoLeitura.pack();
-		}
-		
-		// exibe ou fecha a janela de progresso
-		if(op == true){
-			jDialogProgressoLeitura.setVisible(true);
-		}
-		else{
-			jDialogProgressoLeitura.dispose();
-		}
 	}
 
 	// exibe as informações do usuário selecionado
