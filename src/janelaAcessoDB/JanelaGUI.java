@@ -30,17 +30,13 @@ public class JanelaGUI extends JFrame {
 	 * Create the application.
 	 */
 	protected JanelaGUI() {
-		setResizable(false);
-		initComponents();
-	}
-	
-	private void initComponents() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(JanelaGUI.class.getResource("/img/icon-digital-verificada.png")));
 		setTitle("Banco de dados - Ministério da Educação");
 		setBounds(100, 100, 450, 328);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);	
+		setResizable(false);
 		
 		// cria os componentes
 		setPanel();

@@ -51,11 +51,11 @@ public class JanelaGUI extends JFrame {
 	 * Create the frame.
 	 */
 	protected JanelaGUI() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(JanelaGUI.class.getResource("/img/icon-digital-verificada.png")));
 		// cria o objeto controlador da janela
 		janelaCtrl = new JanelaCtrl(this);
 		
 		// carrega a janela
+		setIconImage(Toolkit.getDefaultToolkit().getImage(JanelaGUI.class.getResource("/img/icon-digital-verificada.png")));
 		setVisible(true);
 		setResizable(false);
 		setTitle("Gerenciar usu\u00E1rios");
