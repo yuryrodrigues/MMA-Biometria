@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.annotation.Documented;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -309,12 +310,47 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// busca o usuário selecionado no banco de dado
 		NffvUser usuarioDB = ffv.getUserByID(usuarioSelecionado.getID());
 		
+		// se as digitais são compativeis
+		int usuarioValidado = confirmaUsuario(usuarioDB);
+		if(usuarioValidado == 1){
+			// icone da janela
+			ImageIcon imageIcon = new ImageIcon(SobreGUI.class.getResource("/img/icon-digital-verificada.png"));
+	        Image image = imageIcon.getImage();
+	        Image novaImg = image.getScaledInstance(85, 74,  java.awt.Image.SCALE_SMOOTH);
+	        imageIcon = new ImageIcon(novaImg);
+			
+			JOptionPane.showMessageDialog(janelaDono,
+					usuarioSelecionado.getNome() + " foi verificado(a). \nAs impressões digitais são compativeis.",
+					"Verificado",
+					JOptionPane.DEFAULT_OPTION,
+					imageIcon);
+		}
+		else if(usuarioValidado == 0){
+			// icone da janela
+			ImageIcon imageIcon = new ImageIcon(SobreGUI.class.getResource("/img/icon-digital-nao-verificada.png"));
+	        Image image = imageIcon.getImage();
+	        Image novaImg = image.getScaledInstance(85, 74,  java.awt.Image.SCALE_SMOOTH);
+	        imageIcon = new ImageIcon(novaImg);
+	        
+			JOptionPane.showMessageDialog(janelaDono,
+					usuarioSelecionado.getNome() + " não foi verificado(a).\nAs impressões digitais não são compativeis.",
+					"Falha na verificação",
+					JOptionPane.ERROR_MESSAGE,
+					imageIcon);
+		}		
+	}
+	
+	// verifica um usuario/checa sua digital
+	/**
+	 *@return 0 = nao verificado ; 1 = verificado ; -1 = erro na verificao
+	 */
+	protected int confirmaUsuario(NffvUser usuario){
 		// executa a leitura da digital no plano de fundo
         SwingWorker<Integer,Void> worker = new SwingWorker<Integer,Void>(){
             @Override
             protected Integer doInBackground(){
             	// le a digital do usuario
-                return ffv.verify(usuarioDB, ScannerNffv.TIMEOUT);
+                return ffv.verify(usuario, ScannerNffv.TIMEOUT);
             }
          
             @Override
@@ -339,35 +375,16 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// se conseguiu escanear a digital
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
 			// se as digitais são compativeis
-			if( compatibilidadeUsuario > 0){
-				// icone da janela
-				ImageIcon imageIcon = new ImageIcon(SobreGUI.class.getResource("/img/icon-digital-verificada.png"));
-		        Image image = imageIcon.getImage();
-		        Image novaImg = image.getScaledInstance(85, 74,  java.awt.Image.SCALE_SMOOTH);
-		        imageIcon = new ImageIcon(novaImg);
-				
-				JOptionPane.showMessageDialog(janelaDono,
-						usuarioSelecionado.getNome() + " foi verificado(a). \nAs impressões digitais são compativeis.",
-						"Verificado",
-						JOptionPane.DEFAULT_OPTION,
-						imageIcon);
+			if(compatibilidadeUsuario > 0){
+				return 1;
 			}
 			else{
-				// icone da janela
-				ImageIcon imageIcon = new ImageIcon(SobreGUI.class.getResource("/img/icon-digital-nao-verificada.png"));
-		        Image image = imageIcon.getImage();
-		        Image novaImg = image.getScaledInstance(85, 74,  java.awt.Image.SCALE_SMOOTH);
-		        imageIcon = new ImageIcon(novaImg);
-		        
-				JOptionPane.showMessageDialog(janelaDono,
-						usuarioSelecionado.getNome() + " não foi verificado(a).\nAs impressões digitais não são compativeis.",
-						"Falha na verificação",
-						JOptionPane.ERROR_MESSAGE,
-						imageIcon);
+				return 0;
 			}
 		}
 		else{
 			trataErrosExcecaoEscaner.erro(ffv.getEngineStatus());
+			return -1;
 		}
 	}
 	
@@ -476,7 +493,6 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 				
 				// le os usuarios do arquivo de banco de dados
 				for (Usuario usuario = (Usuario)arquivo.readObject(); usuario != null; usuario = (Usuario)arquivo.readObject()){
-					System.out.println(usuario);
 					// adiciona o usuario a lista de usuarios
 					listaUsuarios.addElement(usuario);
 				}
