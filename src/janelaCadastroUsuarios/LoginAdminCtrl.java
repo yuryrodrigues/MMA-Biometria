@@ -67,9 +67,12 @@ public class LoginAdminCtrl implements ActionListener {
 	}
 	
 	// verifica a digital
-	private void verificaDigitalAdmin(){		
-		// busca o usuário administrador do bd
-		NffvUser adminUsuario = ffv.getUsers().get(0);
+	private void verificaDigitalAdmin(){	
+		// pega o o admin selecionado na lista
+		Usuario adminSelecionado = (Usuario)janelaGUI.janelaCtrl.listaUsuarios.getElementAt(0);
+		
+		// busca o usuário administrador do bd					
+		NffvUser adminUsuario = ffv.getUserByID(((Usuario)adminSelecionado).getID());
 		
 		// verifica se é o verdadeiro administrador
 		int usuarioValidado = janelaGUI.janelaCtrl.confirmaUsuario(adminUsuario);

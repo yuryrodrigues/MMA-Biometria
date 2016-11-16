@@ -3,11 +3,15 @@ package janelaCadastroUsuarios;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -109,7 +114,16 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			atualizaDadosUsuarioSelecionado();
 		}
 		else if(arg0.getSource() == janelaDono.btnSubstituirDigitalUser){
-			substituirDigitalUsuario();
+			// pega o usuario selecionado na lista
+			Usuario usuarioSelecionado = (Usuario)janelaDono.listaUser.getSelectedValue();
+			
+			// se o usuario selecionado for o administrador
+			if(((Usuario)usuarioSelecionado).getNome().equals(ScannerNffv.getAdminDB())){
+				substituiDigitalAdmin();
+			}
+			else{
+				substituirDigitalUsuario();
+			}
 		}
 		
 		// atualiza o box com os dados do usuário
@@ -166,6 +180,119 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// informa que os dados foram salvos com sucesso
 		janelaDono.lblMsgDadosSalvos.setText("Dados salvos com sucesso!");		
 		exibeMensagemBoxUser();
+	}
+	
+	// tempo limite para aguarda a substituição da digital do administrador
+	// utiliza o mesmo conteiner das thread das mensagens
+	// nao tem problema, pois se uma mensagem sera exibida é porque a janela de 
+	// substituicao de digital do admin esta fechada
+	// entao nao tem problema mantar esta cronometragem :)
+	private void defineTempoSubsDigitalAdmin(JDialog adminSubsDigital){
+		// cria o "conteiner" que contera a thread, caso não exista ainda
+		if(cachedPoolMensagens == null){
+			cachedPoolMensagens = Executors.newCachedThreadPool();
+		}
+		
+		// derruba a contagem anterior, senao ira ocultar a mensagem antes da hora
+		if(runFutureMensagem != null && !runFutureMensagem.isDone()){
+			runFutureMensagem.cancel(true);
+		}
+		
+		// oculta a mensagem apos alguns segundos de exibicao
+		Runnable runMensagem = new Runnable(){
+            @Override
+            public void run() {
+            	try {
+					TimeUnit.SECONDS.sleep(60);
+					// fecha e abre novamente a janela de substituicao de digital
+					// pedindo para verificar a identidade novamente
+					adminSubsDigital.dispose();
+					substituiDigitalAdmin();
+				} catch (InterruptedException e) {}				
+            }
+		};
+		
+		// cronometra e redefine a janela de substituicao da digital do admin
+		runFutureMensagem = cachedPoolMensagens.submit(runMensagem);
+	}
+	
+	// substitui a digital do admin
+	private void substituiDigitalAdmin(){
+		/* informa que precisa confirmar a identidade do admin */		
+		// cria a janela de dialogo
+		JDialog jDialog = new JDialog(janelaDono, true);		
+		jDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		jDialog.setResizable(false);
+		jDialog.setTitle("Banco de Dados - Ministério do Meio Ambiente");
+		jDialog.setIconImage(Toolkit.getDefaultToolkit().getImage(LoginAdminGUI.class.getResource("/img/icon-digital-verificada.png")));
+		jDialog.setBounds(100, 100, 286, 138);	
+		jDialog.setLocationRelativeTo(janelaDono);
+		
+		jDialog.getContentPane().setLayout(new BorderLayout());			
+		JPanel contentPanel = new JPanel();
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		jDialog.getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		
+		JLabel lblMsgInfo = new JLabel("É preciso verificar se você é o Administrador:");
+		lblMsgInfo.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblMsgInfo.setBounds(12, 15, 256, 16);
+		contentPanel.add(lblMsgInfo);
+		
+		JButton btnEscanearDigital = new JButton("escanear digital");
+		btnEscanearDigital.setActionCommand("verificar");
+		btnEscanearDigital.setBounds(11, 51, 257, 33);
+		btnEscanearDigital.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getActionCommand().equals("verificar")){
+					/* confirma se a identidade do admin */
+					// pega o o admin selecionado na lista
+					Usuario adminSelecionado = (Usuario)listaUsuarios.getElementAt(0);
+					
+					// busca o usuário administrador do bd					
+					NffvUser adminUsuario = ffv.getUserByID(((Usuario)adminSelecionado).getID());
+					
+					// verifica se é o verdadeiro administrador
+					int usuarioValidado = confirmaUsuario(adminUsuario);
+					if(usuarioValidado == 1){
+						// modifica o texto da janela
+						lblMsgInfo.setText("Identidade verificada. Escanei a nova digital:");
+						lblMsgInfo.setForeground(new Color(34, 139, 34));
+						
+						// indica que a proximo clique é para cadastrar a digital
+						btnEscanearDigital.setActionCommand("cadastrar");
+						
+						// fecha a janela apos 1minuto de inatividade
+						defineTempoSubsDigitalAdmin(jDialog);
+					}
+					else if(usuarioValidado == 0){
+						// icone da janela
+						ImageIcon imageIcon = new ImageIcon(SobreGUI.class.getResource("/img/icon-digital-nao-verificada.png"));
+				        Image image 		= imageIcon.getImage();
+				        Image novaImg 		= image.getScaledInstance(75, 63,  java.awt.Image.SCALE_SMOOTH);
+				        imageIcon 			= new ImageIcon(novaImg);
+				        
+						JOptionPane.showMessageDialog(janelaDono,
+								"As impressões digitais não são compativeis.",
+								"Falha na verificação",
+								JOptionPane.ERROR_MESSAGE,
+								imageIcon);
+					}
+				}
+				else if(e.getActionCommand().equals("cadastrar")){
+					// substitue a digital do admin
+					substituirDigitalUsuario();
+					
+					// fecha a janela
+					jDialog.dispose();
+				}
+			}
+		});
+		contentPanel.add(btnEscanearDigital);
+		
+		jDialog.setVisible(true);
+		/***********************************************/
 	}
 	
 	// substitui a digital do usuario
