@@ -3,10 +3,6 @@ package janelaCadastroUsuarios;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
@@ -22,7 +18,6 @@ import compartilhada.JDialogProgressoLeituraDigital;
 import compartilhada.ScannerNffv;
 import compartilhada.SobreGUI;
 import compartilhada.TrataErrosExcecaoEscaner;
-import janelaCadastroUsuarios.Usuario;
 
 public class LoginAdminCtrl implements ActionListener {
 	// janela principal da aplicacao
@@ -68,12 +63,24 @@ public class LoginAdminCtrl implements ActionListener {
 			if(ffv.getUsers().isEmpty()){
 				// cadastra a digital do administrador
 				janelaGUI.janelaCtrl.criaUsuario("adminMMA");
+				
+				// indica que o login foi feito com sucesso
+				adminLogado();
 			}
 			else{
 				// verifica a digital do administrador
 				verificaDigitalAdmin();
 			}
 		}
+	}
+	
+	// caso o login ou cadastro do admin tenha sido feito
+	private void adminLogado(){
+		// salva os dados do usuario logado
+		janelaPrincipal.setAdminLogado(true);
+		
+		// fecha a janela de dialogo
+		janelaDono.getJDialog().dispose();
 	}
 	
 	// verifica a digital
@@ -112,11 +119,8 @@ public class LoginAdminCtrl implements ActionListener {
 		if (ffv.getEngineStatus() == NffvStatus.TemplateCreated){
 			// se as digitais são compativeis
 			if( compatibilidadeUsuario > 0){
-				// salva os dados do usuario logado
-				janelaPrincipal.setAdminLogado(true);
-				
-				// fecha a janela de dialogo
-				janelaDono.getJDialog().dispose();
+				// indica que o login foi feito com sucesso
+				adminLogado();
 			}
 			else{
 				// icone da janela
