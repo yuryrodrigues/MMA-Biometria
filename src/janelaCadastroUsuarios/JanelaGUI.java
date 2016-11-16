@@ -175,6 +175,7 @@ public class JanelaGUI extends JFrame {
 		jpanelBoxInfoUser.add(lblUsuario);
 		
 		txtNomeUsuario = new JTextField();
+		txtNomeUsuario.setEnabled(false);
 		txtNomeUsuario.setColumns(10);
 		txtNomeUsuario.setBounds(90, 61, 284, 26);
 		jpanelBoxInfoUser.add(txtNomeUsuario);

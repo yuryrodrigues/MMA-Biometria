@@ -539,6 +539,8 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			janelaDono.spinnerNivelAcesso.setEnabled(false);
 			janelaDono.btnSalvarDadosUser.setEnabled(false);
 			janelaDono.btnSubstituirDigitalUser.setEnabled(false);
+			janelaDono.btnRemover.setEnabled(false);
+			janelaDono.btnVerificar.setEnabled(false);
 			return;
 		}
 		
@@ -546,18 +548,30 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		NffvUser usuario = ffv.getUserByID(usuarioSelecionado.getID());
 		
 		// atualiza o box com as informações do usuário
-		janelaDono.txtNome.setText(usuarioSelecionado.getNome());
-		janelaDono.txtNomeUsuario.setText(usuarioSelecionado.getNomeUsuario());
-		janelaDono.spinnerNivelAcesso.setValue(usuarioSelecionado.getNivelAcesso());
+		janelaDono.txtNome.setText(usuarioSelecionado.getNome());		
 		try {
 			janelaDono.lblImgDigital.setIcon(usuario.getNffvImage().getImageIcon());
-		} catch (Exception e) {e.printStackTrace();}
-		
+		} catch (Exception e) {e.printStackTrace();}		
+		janelaDono.btnVerificar.setEnabled(true);
 		janelaDono.txtNome.setEnabled(true);
-		janelaDono.txtNomeUsuario.setEnabled(true);
-		janelaDono.spinnerNivelAcesso.setEnabled(true);
-		janelaDono.btnSalvarDadosUser.setEnabled(true);
 		janelaDono.btnSubstituirDigitalUser.setEnabled(true);
+		
+		// se o usuario selecionado for o administrador
+		if(usuarioSelecionado.getNome().equals("adminMMA")){
+			janelaDono.txtNomeUsuario.setText("");
+			janelaDono.spinnerNivelAcesso.setValue(1);
+			janelaDono.txtNomeUsuario.setEnabled(false);
+			janelaDono.spinnerNivelAcesso.setEnabled(false);
+			janelaDono.btnSalvarDadosUser.setEnabled(false);
+			janelaDono.btnRemover.setEnabled(false);			
+		}
+		else{
+			janelaDono.txtNomeUsuario.setText(usuarioSelecionado.getNomeUsuario());
+			janelaDono.spinnerNivelAcesso.setValue(usuarioSelecionado.getNivelAcesso());			
+			janelaDono.txtNomeUsuario.setEnabled(true);
+			janelaDono.spinnerNivelAcesso.setEnabled(true);
+			janelaDono.btnSalvarDadosUser.setEnabled(true);			
+		}
 	}
 
 	// exibe as informações do usuário selecionado
