@@ -6,10 +6,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 
-import javax.swing.AbstractListModel;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,12 +22,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import java.awt.SystemColor;
-import java.awt.Toolkit;
 
 public class JanelaGUI extends JFrame {
 	// controlador dos eventos da janela
-	private JanelaCtrl janelaCtrl;
+	protected JanelaCtrl janelaCtrl;
 	// botoes da toolbar
 	protected JButton btnCadastrar;
 	protected JButton btnVerificar;
@@ -61,11 +58,20 @@ public class JanelaGUI extends JFrame {
 		setTitle("Gerenciar usu\u00E1rios");
 		setBounds(100, 100, 569, 446);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		setLocationRelativeTo(null);
 		
 		setPanel();
 		
+		// oculta os componentes da janela
+		exibe(false);
+		
 		// exibe a lista de usuarios
-		janelaCtrl.carregaListaUsuarios();
+		janelaCtrl.mostraListaUsuarios();
+	}
+	
+	// oculta os componentes da janela
+	protected void exibe(boolean op){
+		getContentPane().setVisible(op);
 	}
 	
 	// panel

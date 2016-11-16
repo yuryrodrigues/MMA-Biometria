@@ -65,8 +65,8 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// o endereco da JanelaGUI
 		janelaDono = janela;
 		
-		// cria a lista que armazenara os usuarios cadastrados
-		listaUsuarios = new DefaultListModel();		
+		// lê a lista de usuário cadastrados no banco de dados
+		carregaListaUsuarios();
 		
 		// busca o objeto da classe que manipulará o scanner e o DB
 		ffv = ScannerNffv.getNffv();
@@ -391,6 +391,15 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 				JOptionPane.QUESTION_MESSAGE);
 		if(nomeUsuario == null) return;
 		
+		// cria e salva o novo usuario
+		criaUsuario(nomeUsuario);
+		
+		// seleciona o usuario cadastrado na lista de usuarios
+		janelaDono.listaUser.setSelectedIndex(janelaDono.listaUser.getLastVisibleIndex());
+	}
+	
+	// cria e salva um novo usuario
+	protected void criaUsuario(String nomeUsuario){
 		try{
 			// executa a leitura da digital no plano de fundo
 	        SwingWorker<NffvUser,Void> worker = new SwingWorker<NffvUser,Void>(){
@@ -428,9 +437,6 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		}catch (Exception e) {			
 			trataErrosExcecaoEscaner.excecao(e);
 		}
-		
-		// seleciona o usuario cadastrado na lista de usuarios
-		janelaDono.listaUser.setSelectedIndex(janelaDono.listaUser.getLastVisibleIndex());
 	}
 	
 	// salva a lista de usuarios atualizada no banco de dados
@@ -455,6 +461,9 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	
 	// lê a lista de usuário cadastrados no banco de dados
 	protected void carregaListaUsuarios(){
+		// cria a lista que armazenara os usuarios cadastrados
+		listaUsuarios = new DefaultListModel();	
+		
 		// define o arquivo com o banco de dados das digitais
 		File arquivoDB = new File(ScannerNffv.getBancoDeDados() + ".fdb");
 		
@@ -478,7 +487,10 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 				e.printStackTrace();
 			}
 		}
-		
+	}
+	
+	// adiciona a lista de usuarios cadastrados na janela
+	protected void mostraListaUsuarios(){	
 		// adiciona o modelo com a lista de usuários na janela
 		janelaDono.listaUser.setModel(listaUsuarios);
 		
