@@ -590,6 +590,14 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			janelaDono.btnSalvarDadosUser.setEnabled(true);	
 			janelaDono.btnRemover.setEnabled(true);
 		}
+		
+		// se existir algum usuario na lista(desconsiderando o admin)
+		if((listaUsuarios.size()-1) > 0){
+			janelaDono.btnRemoverTodos.setEnabled(true);
+		}
+		else{
+			janelaDono.btnRemoverTodos.setEnabled(false);
+		}
 	}
 
 	// exibe as informações do usuário selecionado
