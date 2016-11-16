@@ -45,7 +45,7 @@ public class LoginAdminCtrl implements ActionListener {
 			// verifica se o administrador ja esta cadastrado
 			if(ffv.getUsers().isEmpty()){
 				// cadastra a digital do administrador
-				janelaGUI.janelaCtrl.criaUsuario("adminMMA");
+				janelaGUI.janelaCtrl.criaUsuario(ScannerNffv.getAdminDB());
 				
 				// indica que o login foi feito com sucesso
 				adminLogado();

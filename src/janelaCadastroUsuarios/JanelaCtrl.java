@@ -238,9 +238,20 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// caso não deseje, não faz nada
 		if(desejaRemover == 1) return;
 		
-		// remove os usuario da lista do DB 
-		ffv.clearUsers();
-		listaUsuarios.removeAllElements();
+		// remove os usuarios da lista do DB 
+		/*ffv.clearUsers();
+		listaUsuarios.removeAllElements();*/
+		for(int i=(listaUsuarios.size()-1); i>=0; i--) {
+			// se o usuario selecionado for o administrador
+			if(((Usuario)listaUsuarios.get(i)).getNome().equals(ScannerNffv.getAdminDB())){
+				// pula o usuario admin
+				continue;
+			}
+			
+			// remove o usuário do banco de usuarios e do banco de digitais
+			ffv.removeUserID(((Usuario)listaUsuarios.get(i)).getID());
+			listaUsuarios.removeElement((Usuario)listaUsuarios.get(i));
+		}
 		
 		// atualiza a lista de usuários na janela
 		atualizaListaUserJanela();
@@ -252,7 +263,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	// remove usuario(s)
 	private void removerUser(){
 		// pega a lista de usuáros selecionados
-		Object [] usuariosSelecionados = janelaDono.listaUser.getSelectedValues();
+		Object[] usuariosSelecionados = janelaDono.listaUser.getSelectedValues();
 		
 		// se não foi selecionado nenhum usuário
 		if(usuariosSelecionados.length == 0){
@@ -277,10 +288,16 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// caso não deseje, não faz nada
 		if(desejaRemover == 1) return;
 		
-		for (Object object : usuariosSelecionados) {
-			// remove o usuário da lista do DB
-			ffv.removeUserID(((Usuario)object).getID());
-			listaUsuarios.removeElement((Usuario)object);
+		for (Object usuario : usuariosSelecionados) {
+			// se o usuario selecionado for o administrador
+			if(((Usuario)usuario).getNome().equals(ScannerNffv.getAdminDB())){
+				// pula o usuario admin
+				continue;
+			}
+			
+			// remove o usuário do banco de usuarios e do banco de digitais
+			ffv.removeUserID(((Usuario)usuario).getID());
+			listaUsuarios.removeElement((Usuario)usuario);
 			
 			// atualiza a lista de usuários na janela
 			atualizaListaUserJanela();
@@ -557,7 +574,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		janelaDono.btnSubstituirDigitalUser.setEnabled(true);
 		
 		// se o usuario selecionado for o administrador
-		if(usuarioSelecionado.getNome().equals("adminMMA")){
+		if(usuarioSelecionado.getNome().equals(ScannerNffv.getAdminDB())){
 			janelaDono.txtNomeUsuario.setText("");
 			janelaDono.spinnerNivelAcesso.setValue(1);
 			janelaDono.txtNomeUsuario.setEnabled(false);
@@ -570,7 +587,8 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 			janelaDono.spinnerNivelAcesso.setValue(usuarioSelecionado.getNivelAcesso());			
 			janelaDono.txtNomeUsuario.setEnabled(true);
 			janelaDono.spinnerNivelAcesso.setEnabled(true);
-			janelaDono.btnSalvarDadosUser.setEnabled(true);			
+			janelaDono.btnSalvarDadosUser.setEnabled(true);	
+			janelaDono.btnRemover.setEnabled(true);
 		}
 	}
 

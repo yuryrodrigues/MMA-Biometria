@@ -8,6 +8,7 @@ import com.neurotechnology.Nffv.ScannerModule;
 public abstract class ScannerNffv {
 	static private String bancoDeDados	= "dbUsuarios";
 	static private String senhaDB		= "ministerio_da_educacao";
+	static private String adminDB 		= "adminMMA";
 	static private int tipoScanner 		= 25; //25=UareU
 	// tempo maximo de tentativa de leitura da digital
 	static public final int TIMEOUT 	= 10000;
@@ -59,5 +60,9 @@ public abstract class ScannerNffv {
 
 	static public String getSenhaDB() {
 		return senhaDB;
+	}
+	
+	static public String getAdminDB() {
+		return adminDB;
 	}
 }
