@@ -166,6 +166,16 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		// pega o usuario selecionado na lista
 		Usuario usuarioSelecionado = (Usuario)janelaDono.listaUser.getSelectedValue();
 		
+		// se o nome do usuario ou nome de usuario estiver vazio
+		if(janelaDono.txtNome.getText().trim().length() == 0 || janelaDono.txtNomeUsuario.getText().trim().length() == 0){
+			// informa que já atingiu o limite
+			JOptionPane.showMessageDialog(janelaDono,
+					"Preencha os campos Nome e Usuário!",
+					"",
+					JOptionPane.WARNING_MESSAGE);
+			return;			
+		}
+		
 		// altera os dados do usuário selecionado
 		usuarioSelecionado.setNome(janelaDono.txtNome.getText());
 		usuarioSelecionado.setNomeUsuario(janelaDono.txtNomeUsuario.getText());
