@@ -552,6 +552,24 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 				JOptionPane.QUESTION_MESSAGE);
 		if(nomeUsuario == null) return;
 		
+		// se o nome do usuario estiver vazio
+		if(nomeUsuario.trim().length()==0){
+			// abre uma nova janela de cadastro
+			cadastrarUser();
+			return;
+		}
+		
+		// se o nome de usuario digitado for igual ao do administrador		
+		if(nomeUsuario.equals(ScannerNffv.getAdminDB())){
+			// informa que já atingiu o limite
+			JOptionPane.showMessageDialog(janelaDono,
+					"O nome do usuário é inválido!",
+					"",
+					JOptionPane.ERROR_MESSAGE);
+			cadastrarUser();
+			return;
+		}
+		
 		// cria e salva o novo usuario
 		criaUsuario(nomeUsuario);
 		
