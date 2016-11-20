@@ -13,6 +13,7 @@ public class Usuario implements Serializable{
 		this.id = id;
 		this.nome = nome;
 		this.nivelAcesso = 1;
+		this.nomeUsuario = "";
 	}
 	
 	public void setID(int iD) {

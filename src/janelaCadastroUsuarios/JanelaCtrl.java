@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.annotation.Documented;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -59,6 +60,9 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	
 	// lista de usuarios cadastrados
 	DefaultListModel listaUsuarios;;
+	
+	// lista com os nomes de usuarios dos usuarios
+	ArrayList listaNomesUsuarios;
 	
 	// janelas de dialogo
 	JDialog jDialogProgressoLeitura;
@@ -168,13 +172,25 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// se o nome do usuario ou nome de usuario estiver vazio
 		if(janelaDono.txtNome.getText().trim().length() == 0 || janelaDono.txtNomeUsuario.getText().trim().length() == 0){
-			// informa que já atingiu o limite
 			JOptionPane.showMessageDialog(janelaDono,
 					"Preencha os campos Nome e Usuário!",
 					"",
 					JOptionPane.WARNING_MESSAGE);
 			return;			
 		}
+		
+		// se o nome de usuario digitado for diferente do anterior e ele ja estiver em uso
+		if(!usuarioSelecionado.getNomeUsuario().equals(janelaDono.txtNomeUsuario.getText()) && listaNomesUsuarios.contains(janelaDono.txtNomeUsuario.getText())){
+			JOptionPane.showMessageDialog(janelaDono,
+					"O nome de usuário digitado já estar sendo utilizado.",
+					"",
+					JOptionPane.WARNING_MESSAGE);
+			return;	
+		}
+		
+		// atualiza a lista com os nomes de usuarios dos usuarios
+		listaNomesUsuarios.remove(usuarioSelecionado.getNomeUsuario());
+		listaNomesUsuarios.add(janelaDono.txtNomeUsuario.getText());
 		
 		// altera os dados do usuário selecionado
 		usuarioSelecionado.setNome(janelaDono.txtNome.getText());
@@ -186,7 +202,7 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 		
 		// salva a nova lista de usuários
 		salvarUsuarios();
-		
+				
 		// informa que os dados foram salvos com sucesso
 		janelaDono.lblMsgDadosSalvos.setText("Dados salvos com sucesso!");		
 		exibeMensagemBoxUser();
@@ -652,6 +668,8 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 	protected void carregaListaUsuarios(){
 		// cria a lista que armazenara os usuarios cadastrados
 		listaUsuarios = new DefaultListModel();	
+		// cria a lista que aramzenara os nomes de usuarios dos usuarios
+		listaNomesUsuarios = new ArrayList();
 		
 		// define o arquivo com o banco de dados das digitais
 		File arquivoDB = new File(ScannerNffv.getBancoDeDados() + ".fdb");
@@ -667,6 +685,8 @@ public class JanelaCtrl implements ActionListener, ListSelectionListener {
 				for (Usuario usuario = (Usuario)arquivo.readObject(); usuario != null; usuario = (Usuario)arquivo.readObject()){
 					// adiciona o usuario a lista de usuarios
 					listaUsuarios.addElement(usuario);
+					// cria uma lista com os nomes de usuarios
+					listaNomesUsuarios.add(usuario.getNomeUsuario());
 				}
 				
 				arquivo.close();
