@@ -15,8 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.border.EmptyBorder;
 
-import janelaAcessoDB.LoginDBGUI;
-
 public class JDialogProgressoLeituraDigital {
 	// janela de dialogo
 	private JDialog jDialogProgressoLeitura;
@@ -32,7 +30,7 @@ public class JDialogProgressoLeituraDigital {
 		if(jDialogProgressoLeitura == null){
 			/* cria a janela de dialogo informando que esta escaneando a digital */
 	        jDialogProgressoLeitura = new JDialog(janelaDono, ModalityType.APPLICATION_MODAL);
-	        jDialogProgressoLeitura.setIconImage(Toolkit.getDefaultToolkit().getImage(LoginDBGUI.class.getResource("/img/icon-digital-verificada.png")));
+	        jDialogProgressoLeitura.setIconImage(Toolkit.getDefaultToolkit().getImage(JDialogProgressoLeituraDigital.class.getResource("/img/icon-digital-verificada.png")));
 	        jDialogProgressoLeitura.setResizable(false);
 	        jDialogProgressoLeitura.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 	        jDialogProgressoLeitura.setBounds(100, 100, 255, 117);

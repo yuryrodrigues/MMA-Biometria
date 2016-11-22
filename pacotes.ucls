@@ -21,13 +21,13 @@
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <dependency id="5">    
-    <bendpoint x="154" y="274"/>    
-    <end type="SOURCE" refId="2"/>    
+    <bendpoint x="353" y="275"/>    
+    <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="3"/>  
   </dependency>  
   <dependency id="6">    
-    <bendpoint x="353" y="275"/>    
-    <end type="SOURCE" refId="1"/>    
+    <bendpoint x="154" y="274"/>    
+    <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="3"/>  
   </dependency>  
   <dependency id="7">    
