@@ -30,10 +30,6 @@
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="3"/>  
   </dependency>  
-  <dependency id="7">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

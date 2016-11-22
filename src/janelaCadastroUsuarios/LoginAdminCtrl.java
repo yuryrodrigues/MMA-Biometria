@@ -12,6 +12,7 @@ import com.neurotechnology.Nffv.NffvUser;
 
 import compartilhada.ScannerNffv;
 import compartilhada.SobreGUI;
+import compartilhada.Usuario;
 
 public class LoginAdminCtrl implements ActionListener {
 	// janela principal da aplicacao

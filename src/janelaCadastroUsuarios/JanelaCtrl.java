@@ -40,6 +40,7 @@ import compartilhada.JDialogProgressoLeituraDigital;
 import compartilhada.ScannerNffv;
 import compartilhada.SobreGUI;
 import compartilhada.TrataErrosExcecaoEscaner;
+import compartilhada.Usuario;
 
 public class JanelaCtrl implements ActionListener, ListSelectionListener {	
 	// JanelaGUI e o sdk para manipular o scanner

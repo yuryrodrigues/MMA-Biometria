@@ -1,4 +1,4 @@
-package janelaCadastroUsuarios;
+package compartilhada;
 
 import java.io.Serializable;
 

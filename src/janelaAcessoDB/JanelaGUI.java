@@ -19,7 +19,7 @@ import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 
 import compartilhada.SobreGUI;
-import janelaCadastroUsuarios.Usuario;
+import compartilhada.Usuario;
 
 public class JanelaGUI extends JFrame {
 	private JLabel lblNomeUsuario;

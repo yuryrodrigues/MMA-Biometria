@@ -3,7 +3,7 @@ package janelaAcessoDB;
 import com.neurotechnology.Nffv.Nffv;
 
 import compartilhada.ScannerNffv;
-import janelaCadastroUsuarios.Usuario;
+import compartilhada.Usuario;
 
 public class Principal {
 	// objeto que manipulara o scanner e o DB

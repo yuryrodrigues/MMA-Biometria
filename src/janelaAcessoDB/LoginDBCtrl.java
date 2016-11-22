@@ -22,7 +22,7 @@ import compartilhada.JDialogProgressoLeituraDigital;
 import compartilhada.ScannerNffv;
 import compartilhada.SobreGUI;
 import compartilhada.TrataErrosExcecaoEscaner;
-import janelaCadastroUsuarios.Usuario;
+import compartilhada.Usuario;
 
 public class LoginDBCtrl implements ActionListener {
 	// janela principal da aplicacao
