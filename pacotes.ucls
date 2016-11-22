@@ -16,26 +16,21 @@
     <position height="-1" width="-1" x="250" y="269"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="4" language="java" name="img.antigas" project="aps6" file="/aps6/src/img/antigas" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="482" y="239"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
-  </package>  
-  <package id="5" language="java" name="img" project="aps6" file="/aps6/src/img" binary="false" corner="BOTTOM_RIGHT">    
+  <package id="4" language="java" name="img" project="aps6" file="/aps6/src/img" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="483" y="163"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <dependency id="6">    
+  <dependency id="5">    
     <bendpoint x="154" y="274"/>    
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="3"/>  
   </dependency>  
-  <dependency id="7">    
+  <dependency id="6">    
     <bendpoint x="353" y="275"/>    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="3"/>  
   </dependency>  
-  <dependency id="8">    
+  <dependency id="7">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
