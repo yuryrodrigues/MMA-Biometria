@@ -3,7 +3,7 @@ Sistema de identificação e autenticação biométrica com interface gráfica, 
 
 Este projeto foi desenvolvido durante a graduação em Ciência da Computação na UNIP.
 
-O arquivo [APS - Biometria.pdf](https://github.com/yuryrodrigues/MMA-Biometria/blob/master/APS%20-%20Biometria.pdf) contém a dissertação sobre a biométria e o projeto deste sistema. Incluindo a descrição da estrutura do sistema e as ferramentas utilizadas.
+O arquivo [APS - Biometria.pdf](https://github.com/yuryrodrigues/MMA-Biometria/blob/master/APS%20-%20Biometria.pdf) contém a dissertação sobre a biométria e o projeto deste sistema, incluindo a descrição da estrutura do sistema e as ferramentas utilizadas.
 
 Imagens dos programas
 -------------------
